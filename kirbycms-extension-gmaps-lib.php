@@ -19,8 +19,15 @@ class GMaps {
   const PARA_LNG = 'data-lng';
   const PARA_ZOOM = 'data-zoom';
   
-  const CONFIG_PARAM_CLASS = "kirby.extension.gmaps.class";
-  const CONFIG_PARAM_ZOOM = "kirby.extension.gmaps.zoom";
+  const CONFIG_PARA_CLASS = "kirby.extension.gmaps.class";
+  const CONFIG_PARA_ZOOM = "kirby.extension.gmaps.zoom";
+  
+  protected  $para_mapping = [
+    self::ATTR_CLASS => self::PARA_CLASS,
+    self::ATTR_LAT => self::PARA_LAT,
+    self::ATTR_LNG => self::PARA_LNG,
+    self::ATTR_ZOOM => self::PARA_ZOOM,
+  ];
   
   /**
    * @var \Page
@@ -46,13 +53,6 @@ class GMaps {
     return $this->default;
   }
   
-  public function parse($tag, array $block, array $attr_template = null){
-    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
-      $this->data = $this->convertAndMergeAttributes( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
-    else 
-      $this->data = $this->convertAndMergeAttributes( $tag, null, $attr_template );
-  }
-  
   public function parseAndConvertTags($value, array $attr_template = null){
     $value = $this->parseAndConvertTag('googlemaps',$value, $attr_template);
     return $value;
@@ -75,10 +75,17 @@ class GMaps {
     return $value;
   }
   
+  public function parse($tag, array $block, array $attr_template = null){
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
+      $this->data = $this->convertAndMergeAttributes( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+    else 
+      $this->data = $this->convertAndMergeAttributes( $tag, null, $attr_template );
+  }
+  
   protected function convertAndMergeAttributes($tag, array $attr = null, array $attr_template = null){
     $attr_result = array();
     $attr_result = $this->getDefaults();
-    
+
     if ( is_array($attr_template) ) {
       foreach ( $attr_template as $key => $value ) {
         if ( array_key_exists($key, $attr_result) )
@@ -88,10 +95,15 @@ class GMaps {
     
     if ( is_array( $attr ) ) {
       foreach($attr as $key => $value){
+        if ( array_key_exists($key, $this->para_mapping) )
+          $key = $this->para_mapping[$key];
+        
         if ( array_key_exists($key, $attr_result) )
           $attr_result[$key] = $this->checkValue( $key, $value );
       }
     }
+    
+    return $attr_result;
   }
   
   protected function checkValue($key, $value){
@@ -111,12 +123,13 @@ class GMaps {
       return;
     
     $attr = array();
+    $attr['class'] = $this->data[self::PARA_CLASS];
     $attr['data-googlemaps'] = $this->data[self::PARA_GOOGLEMAPS];
     $attr['data-lat'] = $this->data[self::PARA_LAT];
     $attr['data-lng'] = $this->data[self::PARA_LNG];
     $attr['data-zoom'] = $this->data[self::PARA_ZOOM];
     
-    return \Html::tag('div', $this->data[self::ARRAY_ATTR][self::PARA_LINK_URL], null, $attr);
+    return \Html::tag('div', "", $attr);
   }
   
   public static function getGMap($page, $attr = array()){
