@@ -98,13 +98,13 @@ echo GMaps::getGMap($page, $attr);
 
 ### Kirby
 
-(code)
-(_googlemaps lat: 41.875696 lng: -87.624207 zoom: 11 kml: cta.kml)
-(/code)
+```kirby
+(googlemaps lat: 41.875696 lng: -87.624207 zoom: 11 kml: cta.kml)
+```
 
 ### PHP
 
-(code lang: php)
+```php
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
@@ -113,4 +113,4 @@ $attr[GMaps::ATTR_LNG] = -87.624207;
 $attr[GMaps::ATTR_ZOOM] = 11;
 $attr[GMaps::ATTR_KML] = '.../cta.kml';
 echo GMaps::getGMap($page, $attr);
-(/code)
+```
