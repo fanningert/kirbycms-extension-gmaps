@@ -10,14 +10,14 @@ class GMaps {
   const ATTR_LAT = 'lat';
   const ATTR_LNG = 'lng';
   const ATTR_ZOOM = 'zoom';
-  const ATTR_MARKER_TEXT = 'marker_text';
-  const ATTR_MARKER_LINK = 'marker_link';
+  const ATTR_KML = 'kml';
   
   const PARA_GOOGLEMAPS = 'data-googlemaps';
   const PARA_CLASS = 'class';
   const PARA_LAT = 'data-lat';
   const PARA_LNG = 'data-lng';
   const PARA_ZOOM = 'data-zoom';
+  const PARA_KML = 'data-kml';
   
   const CONFIG_PARA_CLASS = "kirby.extension.gmaps.class";
   const CONFIG_PARA_ZOOM = "kirby.extension.gmaps.zoom";
@@ -27,6 +27,7 @@ class GMaps {
     self::ATTR_LAT => self::PARA_LAT,
     self::ATTR_LNG => self::PARA_LNG,
     self::ATTR_ZOOM => self::PARA_ZOOM,
+    self::ATTR_KML => self::PARA_KML
   ];
   
   /**
@@ -47,6 +48,7 @@ class GMaps {
     $this->default[self::PARA_LAT] = false;
     $this->default[self::PARA_LNG] = false;
     $this->default[self::PARA_ZOOM] = kirby()->option(self::CONFIG_PARA_ZOOM, 7);;
+    $this->default[self::PARA_KML] = false;
   }
   
   public function getDefaults(){
@@ -107,27 +109,36 @@ class GMaps {
   }
   
   protected function checkValue($key, $value){
-//    switch ($key){
+    switch ($key){
 //      case self::PARA_LAT:
 //        break;
 //      case self::PARA_LNG:
 //        break;
 //      case self::PARA_ZOOM:
 //        break;
-//    }
+      case self::PARA_KML:
+        $source = $value;
+        $source = ( is_object( $source ) )? $source : $this->page->file( $source );
+        if ( $source ) {
+          $value = $source->url();
+        }
+        break;
+    }
     return $value;
   }
   
   public function toHTML(){
-    if ( $this->data[self::PARA_LAT] === false OR $this->data[self::PARA_LNG] === false )
+    if ( ( $this->data[self::PARA_LAT] === false OR $this->data[self::PARA_LNG] === false ) AND $this->data[self::PARA_KML] === false )
       return;
     
     $attr = array();
-    $attr['class'] = $this->data[self::PARA_CLASS];
-    $attr['data-googlemaps'] = $this->data[self::PARA_GOOGLEMAPS];
-    $attr['data-lat'] = $this->data[self::PARA_LAT];
-    $attr['data-lng'] = $this->data[self::PARA_LNG];
-    $attr['data-zoom'] = $this->data[self::PARA_ZOOM];
+    $attr[self::PARA_CLASS] = $this->data[self::PARA_CLASS];
+    $attr[self::PARA_GOOGLEMAPS] = $this->data[self::PARA_GOOGLEMAPS];
+    $attr[self::PARA_LAT] = $this->data[self::PARA_LAT];
+    $attr[self::PARA_LNG] = $this->data[self::PARA_LNG];
+    $attr[self::PARA_ZOOM] = $this->data[self::PARA_ZOOM];
+    if ( $this->data[self::PARA_KML] !== false )
+      $attr[self::PARA_KML] = $this->data[self::PARA_KML];
     
     return \Html::tag('div', "", $attr);
   }

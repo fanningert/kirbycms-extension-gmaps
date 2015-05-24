@@ -2,5 +2,33 @@
 <!-- Komodo Project File - DO NOT EDIT -->
 <project id="2f2fc6a7-2785-4efb-bb7f-97f90987a89e" kpf_version="5" name="kirbycms-extension-gmaps.komodoproject">
 <preference-set idref="2f2fc6a7-2785-4efb-bb7f-97f90987a89e" id="project" preftype="project">
+<preference-set id="Invocations">
+<preference-set id="Project">
+  <string id="cookieparams"></string>
+  <string relative="path" id="cwd"></string>
+  <string id="documentRoot"></string>
+  <string id="executable-params"></string>
+  <string id="filename"></string>
+  <string id="getparams"></string>
+  <string id="language">PHP</string>
+  <string id="mpostparams"></string>
+  <string id="params"></string>
+  <string id="postparams"></string>
+  <string id="posttype">application/x-www-form-urlencoded</string>
+  <string id="request-method">GET</string>
+  <boolean id="show-dialog">1</boolean>
+  <boolean id="sim-cgi">0</boolean>
+  <boolean id="use-console">0</boolean>
+  <string id="userCGIEnvironment"></string>
+  <string id="userEnvironment"></string>
+</preference-set>
+</preference-set>
+  <string id="currentInvocationLanguage">PHP</string>
+  <long id="indentWidth">2</long>
+  <string id="language">PHP</string>
+  <string id="lastInvocation">Project</string>
+  <long id="prefs_version">1</long>
+  <boolean id="showWhitespace">1</boolean>
+  <long id="tabWidth">2</long>
 </preference-set>
 </project>
