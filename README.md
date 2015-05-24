@@ -21,6 +21,7 @@ Go in the root directory of your git repository and execute following command to
 $ git submodule add https://github.com/fanningert/kirbycms-extension-webhelper.git ./site/plugins/kirbycms-extension-webhelper
 $ git submodule add https://github.com/fanningert/kirbycms-extension-gmaps.git ./site/plugins/kirbycms-extension-gmaps
 $ git submodule update --init --recursive
+$ git submodule foreach --recursive git pull
 ```
 
 ### Manuell
@@ -42,4 +43,5 @@ Go in the root directory of your git repository and execute following command to
 
 ```bash
 $ git submodule update --init --recursive
+$ git submodule foreach --recursive git pull
 ```

@@ -46,14 +46,36 @@ class GMaps {
     return $this->default;
   }
   
-  public function parse(array $block, array $attr_template = null){
+  public function parse($tag, array $block, array $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
-      $this->data = $this->convertAndMergeAttributes( $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+      $this->data = $this->convertAndMergeAttributes( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else 
-      $this->data = $this->convertAndMergeAttributes( null, $attr_template );
+      $this->data = $this->convertAndMergeAttributes( $tag, null, $attr_template );
   }
   
-  protected function convertAndMergeAttributes(array $attr = null, array $attr_template = null){
+  public function parseAndConvertTags($value, array $attr_template = null){
+    $value = $this->parseAndConvertTag('googlemaps',$value, $attr_template);
+    return $value;
+  }
+  
+  protected function parseAndConvertTag($tag, $value, array $attr_template = null){
+    $offset = 0;
+    while ( ($block = WebHelper::getblock($tag, $value, $offset)) !== false ) {
+      $content = "";
+      $offset = $block[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
+      $start = $block[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      $length = $block[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      
+      $this->parse($tag, $block, $attr_template);
+      $content = $this->toHTML();
+      
+      $value = substr_replace($value, $content, $start, $length);
+    }
+    
+    return $value;
+  }
+  
+  protected function convertAndMergeAttributes($tag, array $attr = null, array $attr_template = null){
     $attr_result = array();
     $attr_result = $this->getDefaults();
     
