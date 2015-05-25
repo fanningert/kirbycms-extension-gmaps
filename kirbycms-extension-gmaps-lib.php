@@ -11,6 +11,7 @@ class GMaps {
   const ATTR_LNG = 'lng';
   const ATTR_ZOOM = 'zoom';
   const ATTR_KML = 'kml';
+  const ATTR_MARKER = 'marker';
   
   const PARA_GOOGLEMAPS = 'data-googlemaps';
   const PARA_CLASS = 'class';
@@ -18,16 +19,19 @@ class GMaps {
   const PARA_LNG = 'data-lng';
   const PARA_ZOOM = 'data-zoom';
   const PARA_KML = 'data-kml';
+  const PARA_MARKER = 'data-marker';
   
   const CONFIG_PARA_CLASS = "kirby.extension.gmaps.class";
   const CONFIG_PARA_ZOOM = "kirby.extension.gmaps.zoom";
+  const CONFIG_PARA_MARKER = "kirby.extension.gmaps.marker";
   
   protected  $para_mapping = [
     self::ATTR_CLASS => self::PARA_CLASS,
     self::ATTR_LAT => self::PARA_LAT,
     self::ATTR_LNG => self::PARA_LNG,
     self::ATTR_ZOOM => self::PARA_ZOOM,
-    self::ATTR_KML => self::PARA_KML
+    self::ATTR_KML => self::PARA_KML,
+    self::ATTR_MARKER => self::PARA_MARKER
   ];
   
   /**
@@ -44,11 +48,12 @@ class GMaps {
   
   protected function loadDefaults(){
     $this->default[self::PARA_GOOGLEMAPS] = 'true';
-    $this->default[self::PARA_CLASS] = kirby()->option(self::CONFIG_PARA_CLASS, 'googlemaps');;
+    $this->default[self::PARA_CLASS] = kirby()->option(self::CONFIG_PARA_CLASS, 'googlemaps');
     $this->default[self::PARA_LAT] = false;
     $this->default[self::PARA_LNG] = false;
-    $this->default[self::PARA_ZOOM] = kirby()->option(self::CONFIG_PARA_ZOOM, 7);;
+    $this->default[self::PARA_ZOOM] = kirby()->option(self::CONFIG_PARA_ZOOM, 7);
     $this->default[self::PARA_KML] = false;
+    $this->default[self::PARA_MARKER] = kirby()->option(self::CONFIG_PARA_MARKER, false);
   }
   
   public function getDefaults(){
@@ -139,6 +144,8 @@ class GMaps {
     $attr[self::PARA_ZOOM] = $this->data[self::PARA_ZOOM];
     if ( $this->data[self::PARA_KML] !== false )
       $attr[self::PARA_KML] = $this->data[self::PARA_KML];
+    if ( $this->data[self::PARA_MARKER] !== false )
+      $attr[self::PARA_MARKER] = $this->data[self::PARA_MARKER];
     
     return \Html::tag('div', "", $attr);
   }
