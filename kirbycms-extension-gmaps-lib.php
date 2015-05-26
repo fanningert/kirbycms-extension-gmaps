@@ -12,6 +12,8 @@ class GMaps {
   const ATTR_ZOOM = 'zoom';
   const ATTR_KML = 'kml';
   const ATTR_MARKER = 'marker';
+  const ATTR_DISABLE_DRAGGABLE = 'draggable';
+  const ATTR_DISABLE_ZOOM = 'zoom';
   
   const PARA_GOOGLEMAPS = 'data-googlemaps';
   const PARA_CLASS = 'class';
@@ -20,10 +22,14 @@ class GMaps {
   const PARA_ZOOM = 'data-zoom';
   const PARA_KML = 'data-kml';
   const PARA_MARKER = 'data-marker';
+  const PARA_DISABLE_DRAGGABLE = 'data-disable-draggable';
+  const PARA_DISABLE_ZOOM = 'data-disable-zoom';
   
   const CONFIG_PARA_CLASS = "kirby.extension.gmaps.class";
   const CONFIG_PARA_ZOOM = "kirby.extension.gmaps.zoom";
   const CONFIG_PARA_MARKER = "kirby.extension.gmaps.marker";
+  const CONFIG_PARA_DISABLE_DRAGGABLE = 'kirby.extension.gmaps.disable.draggable';
+  const CONFIG_PARA_DISABLE_ZOOM = 'kirby.extension.gmaps.disable.zoom';
   
   protected  $para_mapping = [
     self::ATTR_CLASS => self::PARA_CLASS,
@@ -31,7 +37,9 @@ class GMaps {
     self::ATTR_LNG => self::PARA_LNG,
     self::ATTR_ZOOM => self::PARA_ZOOM,
     self::ATTR_KML => self::PARA_KML,
-    self::ATTR_MARKER => self::PARA_MARKER
+    self::ATTR_MARKER => self::PARA_MARKER,
+    self::ATTR_DISABLE_DRAGGABLE => self::PARA_DISABLE_DRAGGABLE,
+    self::ATTR_DISABLE_ZOOM => self::PARA_DISABLE_ZOOM
   ];
   
   /**
@@ -54,6 +62,8 @@ class GMaps {
     $this->default[self::PARA_ZOOM] = kirby()->option(self::CONFIG_PARA_ZOOM, 7);
     $this->default[self::PARA_KML] = false;
     $this->default[self::PARA_MARKER] = kirby()->option(self::CONFIG_PARA_MARKER, false);
+    $this->default[self::PARA_DISABLE_DRAGGABLE] = kirby()->option(self::CONFIG_PARA_DISABLE_DRAGGABLE, false);
+    $this->default[self::PARA_DISABLE_ZOOM] = kirby()->option(self::CONFIG_PARA_DISABLE_ZOOM, false);
   }
   
   public function getDefaults(){
@@ -115,12 +125,21 @@ class GMaps {
   
   protected function checkValue($key, $value){
     switch ($key){
-//      case self::PARA_LAT:
-//        break;
-//      case self::PARA_LNG:
-//        break;
-//      case self::PARA_ZOOM:
-//        break;
+      case self::PARA_ZOOM:
+        if( is_int($value) )
+          return $value;
+        if ( is_string($value) && is_numeric($value) && intval($value) >= 0 && intval($value) <= 19 ) {
+          $value = intval($value);
+        } else {
+          $value = $this->default[self::PARA_ZOOM];
+        }
+        break;
+      case self::PARA_DISABLE_ZOOM:
+      case self::PARA_DISABLE_DRAGGABLE:
+        if ( is_bool($value) )
+          return $value;
+        $value = ( is_string($value) && $value === 'true' )? true : false;
+        break;
       case self::PARA_KML:
         $source = $value;
         $source = ( is_object( $source ) )? $source : $this->page->file( $source );
@@ -142,6 +161,8 @@ class GMaps {
     $attr[self::PARA_LAT] = $this->data[self::PARA_LAT];
     $attr[self::PARA_LNG] = $this->data[self::PARA_LNG];
     $attr[self::PARA_ZOOM] = $this->data[self::PARA_ZOOM];
+    $attr[self::PARA_DISABLE_ZOOM] = $this->data[self::PARA_DISABLE_ZOOM];
+    $attr[self::PARA_DISABLE_DRAGGABLE] = $this->data[self::PARA_DISABLE_DRAGGABLE];
     if ( $this->data[self::PARA_KML] !== false )
       $attr[self::PARA_KML] = $this->data[self::PARA_KML];
     if ( $this->data[self::PARA_MARKER] !== false )

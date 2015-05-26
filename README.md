@@ -87,8 +87,10 @@ $ git submodule foreach --recursive git pull
 | Kirby option | Default | Values | Description |
 | ------------ | ------- | ------ | ----------- |
 | `kirby.extension.gmaps.class` | 'googlemaps' | {string} | Class of the canvas element |
-| `kirby.extension.gmaps.zoom` | 7 | 0-19 | Default zoom level |
+| `kirby.extension.gmaps.zoom` | 7 | {number 0-19} | Default zoom level |
 | `kirby.extension.gmaps.marker` | false | true/false | Display marker on the map |
+| `kirby.extension.gmaps.disable.draggable` | false | true/false | Disable the drag function |
+| `kirby.extension.gmaps.disable.zoom` | false | true/false | Disable the zoom functions |
 
 ### KirbyTag attributes
 
@@ -97,9 +99,11 @@ $ git submodule foreach --recursive git pull
 | class |  | {string} | see `kirby.extension.gmaps.class` |
 | lat | false | false/{number} | Latitude |
 | lng | false | false/{number} | Longitude |
-| zoom |  | {number 0-9} | see `kirby.extension.gmaps.zoom` |
+| zoom |  | {number 0-19} | see `kirby.extension.gmaps.zoom` |
 | kml | false | false/{string} | Overlay the map with a KML |
 | marker |  | true/false | see `kirby.extension.gmaps.marker` |
+| draggable |  | true/false | see `kirby.extension.gmaps.disable.draggable` |
+| zoom |  | true/false | see `kirby.extension.gmaps.disable.zoom` |
 
 ### Example
 
