@@ -89,8 +89,8 @@ $ git submodule foreach --recursive git pull
 | `kirby.extension.gmaps.class` | 'googlemaps' | {string} | Class of the canvas element |
 | `kirby.extension.gmaps.zoom` | 7 | {number 0-19} | Default zoom level |
 | `kirby.extension.gmaps.marker` | false | true/false | Display marker on the map |
-| `kirby.extension.gmaps.disable.draggable` | false | true/false | Disable the drag function |
-| `kirby.extension.gmaps.disable.zoom` | false | true/false | Disable the zoom functions |
+| `kirby.extension.gmaps.ui.draggable` | true | true/false | Activate/Deactivate the drag function |
+| `kirby.extension.gmaps.ui.zoom` | true | true/false | Activate/Deactivate the zoom functions |
 
 ### KirbyTag attributes
 

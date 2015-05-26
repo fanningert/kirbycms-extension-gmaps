@@ -4,8 +4,8 @@ function initialize() {
     var lat = jQuery(this).attr('data-lat');
     var lng = jQuery(this).attr('data-lng');
     var zoom = parseInt(jQuery(this).attr('data-zoom'));
-    var disable_zoom = (jQuery(this).attr('data-disable-zoom') === 'true')
-    var disable_draggable = (jQuery(this).attr('data-disable-draggable') === 'true')
+    var disable_zoom = jQuery.parseJSON(jQuery(this).attr('data-ui-zoom'));
+    var disable_draggable = jQuery.parseJSON(jQuery(this).attr('data-ui-draggable'));
     var kml = jQuery(this).attr('data-kml');
     var marker = jQuery(this).attr('data-marker');
     
