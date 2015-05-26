@@ -102,8 +102,8 @@ $ git submodule foreach --recursive git pull
 | zoom |  | {number 0-19} | see `kirby.extension.gmaps.zoom` |
 | kml | false | false/{string} | Overlay the map with a KML |
 | marker |  | true/false | see `kirby.extension.gmaps.marker` |
-| draggable |  | true/false | see `kirby.extension.gmaps.disable.draggable` |
-| zoom |  | true/false | see `kirby.extension.gmaps.disable.zoom` |
+| ui_draggable |  | true/false | see `kirby.extension.gmaps.disable.draggable` |
+| ui_zoom |  | true/false | see `kirby.extension.gmaps.disable.zoom` |
 
 ### Example
 

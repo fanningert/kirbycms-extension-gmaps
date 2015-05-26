@@ -12,8 +12,8 @@ class GMaps {
   const ATTR_ZOOM = 'zoom';
   const ATTR_KML = 'kml';
   const ATTR_MARKER = 'marker';
-  const ATTR_UI_DRAGGABLE = 'draggable';
-  const ATTR_UI_ZOOM = 'zoom';
+  const ATTR_UI_DRAGGABLE = 'ui_draggable';
+  const ATTR_UI_ZOOM = 'ui_zoom';
   
   const PARA_GOOGLEMAPS = 'data-googlemaps';
   const PARA_CLASS = 'class';
