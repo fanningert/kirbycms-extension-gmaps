@@ -15,7 +15,7 @@ First you need to install the plugin. In the second part copy the gmaps.js in to
 ```php
 ...
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="//maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=initialize"></script>
+<script src="//maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initialize"></script>
 <?php echo js('assets/js/gmaps.js'); ?>
 ...
 ```
@@ -32,7 +32,7 @@ For the asynchron loading of Javascript, you need a helper class. In my example 
     $script(['//code.jquery.com/jquery-2.1.1.min.js', 'gmaps'], 'pagejs');
     $script.ready('pagejs', function() {
       // I add the protcol, because without the protocol the script is searching in the local directory
-      $script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=initialize', 'googlemaps');
+      $script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initialize', 'googlemaps');
     });
   </script>
   </body>
@@ -86,34 +86,66 @@ $ git submodule foreach --recursive git pull
 
 | Kirby option | Default | Values | Description |
 | ------------ | ------- | ------ | ----------- |
+| `kirby.extension.gmaps.debug` | false | true/false | |
 | `kirby.extension.gmaps.class` | 'googlemaps' | {string} | Class of the canvas element |
+| `kirby.extension.gmaps.lat` | 0.0 | {number} | Initial LAT-Value for map |
+| `kirby.extension.gmaps.lng` | 0.0 | {number} | Initial LNG-Value for map |
 | `kirby.extension.gmaps.zoom` | 7 | {number 0-19} | Default zoom level |
-| `kirby.extension.gmaps.marker` | false | true/false | Display marker on the map |
-| `kirby.extension.gmaps.ui.draggable` | true | true/false | Activate/Deactivate the drag function |
-| `kirby.extension.gmaps.ui.zoom` | true | true/false | Activate/Deactivate the zoom functions |
+| `kirby.extension.gmaps.controls.maptypes` | 'roadmap,satellite,hybrid,terrain' | {string} | |
+| `kirby.extension.gmaps.controls.maptype_selectable` | true | true/false | |
+| `kirby.extension.gmaps.controls.maptype.default` | 'roadmap' | {string} | |
+| `kirby.extension.gmaps.controls.draggable` | true | true/false | |
+| `kirby.extension.gmaps.controls.zoomable` | true | true/false | |
+| `kirby.extension.gmaps.controls.streetview` | true | true/false | |
+| `kirby.extension.gmaps.controls.fitbounds.marker` | true | true/false | |
+| `kirby.extension.gmaps.controls.fitbounds.kml` | true | true/false | |
 
 ### KirbyTag attributes
 
+#### Root element (googlemaps)
+
 | Option | Default | Values | Description |
 | ------ | ------- | ------ | ----------- |
-| class |  | {string} | see `kirby.extension.gmaps.class` |
-| lat | false | false/{number} | Latitude |
-| lng | false | false/{number} | Longitude |
-| zoom |  | {number 0-19} | see `kirby.extension.gmaps.zoom` |
-| kml | false | false/{string} | Overlay the map with a KML |
-| marker |  | true/false | see `kirby.extension.gmaps.marker` |
-| ui_draggable |  | true/false | see `kirby.extension.gmaps.disable.draggable` |
-| ui_zoom |  | true/false | see `kirby.extension.gmaps.disable.zoom` |
+| class | | | see `kirby.extension.gmaps.class` |
+| lat | | | see `kirby.extension.gmaps.lat` |
+| lng | | | see `kirby.extension.gmaps.lng` |
+| place | | {string} | alternative location definition over Place API |
+| zoom | | | see `kirby.extension.gmaps.zoom` |
+| dragable | | | see `kirby.extension.gmaps.controls.draggable` |
+| zoomable | | | see `kirby.extension.gmaps.controls.zoomable` |
+| maptypes | | | see `kirby.extension.gmaps.controls.maptypes` |
+| maptype | | | see `kirby.extension.gmaps.controls.maptype.default` |
+| maptype_selectable | | | see `kirby.extension.gmaps.controls.maptype_selectable` |
+| streetview | | | see `kirby.extension.gmaps.controls.streetview` |
+| fitbounds_marker | | | see `kirby.extension.gmaps.controls.fitbounds.marker` |
+| fitbounds_kml | | | see `kirby.extension.gmaps.controls.fitbounds.kml` |
 
-### Example
+#### KML (kml)
 
-#### Kirby
+| Option | Default | Values | Description |
+| ------ | ------- | ------ | ----------- |
+| title | | {string} | Title of KML, not useable at the moment |
+| file | | {string} | relative or absolute url |
+
+#### Marker (marker)
+
+| Option | Default | Values | Description |
+| ------ | ------- | ------ | ----------- |
+| title | | {string} | |
+| lat | 0.0 | {number} | |
+| lng | 0.0 | {number} | |
+
+### Examples
+
+#### Simple example
+
+##### Kirby
 
 ```kirby
 (googlemaps lat: 35.7152128 lng: 139.7981552 zoom: 4)
 ```
 
-#### PHP
+##### PHP
 
 ```php
 use at\fanninger\kirby\extension\gmaps\GMaps;
@@ -125,23 +157,69 @@ $attr[GMaps::ATTR_ZOOM] = 4;
 echo GMaps::getGMap($page, $attr);
 ```
 
-### KML
+#### Use Place API for map focus
 
-#### Kirby
+##### Kirby
 
 ```kirby
-(googlemaps lat: 41.875696 lng: -87.624207 zoom: 11 kml: cta.kml)
+(googlemaps place: Vienna)
 ```
 
-#### PHP
+##### PHP
 
 ```php
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
-$attr[GMaps::ATTR_LAT] = 41.875696;
-$attr[GMaps::ATTR_LNG] = -87.624207;
-$attr[GMaps::ATTR_ZOOM] = 11;
-$attr[GMaps::ATTR_KML] = '.../cta.kml';
+$attr[ATTR_PLACE] = 'Vienna';
+echo GMaps::getGMap($page, $attr);
+```
+
+#### KML
+
+##### Kirby
+
+```kirby
+(googlemaps)
+  (kml file: cta.kml)
+(/googlemaps)
+```
+
+##### PHP
+
+```php
+use at\fanninger\kirby\extension\gmaps\GMaps;
+
+$attr = array();
+$attr[GMaps::OBJECT_KML] = array();
+$attr[GMaps::OBJECT_KML][0] = array();
+$attr[GMaps::OBJECT_KML][0][GMaps::ATTR_KML_FILE] = '.../cta.kml';
+echo GMaps::getGMap($page, $attr);
+```
+
+#### Marker
+
+##### Kirby
+
+```kirby
+(googlemaps)
+  (marker lat: 41.875696 lng: -87.624207)
+  (marker lat: -87.624207 lng: 41.875696)
+(/googlemaps)
+```
+
+##### PHP
+
+```php
+use at\fanninger\kirby\extension\gmaps\GMaps;
+
+$attr = array();
+$attr[GMaps::OBJECT_MARKER] = array();
+$attr[GMaps::OBJECT_MARKER][0] = array();
+$attr[GMaps::OBJECT_MARKER][0][GMaps::ATTR_MARKER_LAT] = 41.875696;
+$attr[GMaps::OBJECT_MARKER][0][GMaps::ATTR_MARKER_LNG] = -87.624207;
+$attr[GMaps::OBJECT_MARKER][1] = array();
+$attr[GMaps::OBJECT_MARKER][1][GMaps::ATTR_MARKER_LAT] = -87.624207;
+$attr[GMaps::OBJECT_MARKER][1][GMaps::ATTR_MARKER_LNG] = 41.875696;
 echo GMaps::getGMap($page, $attr);
 ```

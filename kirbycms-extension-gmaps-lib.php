@@ -6,40 +6,117 @@ use at\fanninger\kirby\extension\webhelper\WebHelper;
 
 class GMaps {
   
-  const ATTR_CLASS = 'class';
-  const ATTR_LAT = 'lat';
-  const ATTR_LNG = 'lng';
-  const ATTR_ZOOM = 'zoom';
-  const ATTR_KML = 'kml';
-  const ATTR_MARKER = 'marker';
-  const ATTR_UI_DRAGGABLE = 'ui_draggable';
-  const ATTR_UI_ZOOM = 'ui_zoom';
+  const ATTR_CLASS = "class";
+  const ATTR_LAT = "lat";
+  const ATTR_LNG = "lng";
+  const ATTR_ZOOM = "zoom";
+  const ATTR_PLACE = "place";
+  const ATTR_PROFILE = "profile";
+  const ATTR_DEBUG = "debug";
+  const OBJECT_ROOT = "googlemaps";
+  const OBJECT_MARKER = "marker";
+  const OBJECT_KML = "kml";
+  const OBJECT_STYLE = "style";
+  const OBJECT_CONTROLS = "controls";
+
+  const ATTR_KML_FILE = "file";
+  const ATTR_KML_TITLE = "title";
   
-  const PARA_GOOGLEMAPS = 'data-googlemaps';
-  const PARA_CLASS = 'class';
-  const PARA_LAT = 'data-lat';
-  const PARA_LNG = 'data-lng';
-  const PARA_ZOOM = 'data-zoom';
-  const PARA_KML = 'data-kml';
-  const PARA_MARKER = 'data-marker';
-  const PARA_UI_DRAGGABLE = 'data-ui-draggable';
-  const PARA_UI_ZOOM = 'data-ui-zoom';
+  const ATTR_MARKER_TITLE = "title";
+  const ATTR_MARKER_LAT = "lat";
+  const ATTR_MARKER_LNG = "lng";
+  const ATTR_MARKER_CONTENT = "content";
   
+  const ATTR_STYLE_FILE = "file";
+  const ATTR_STYLE_CONTENT = "content";
+  
+  const ATTR_CONTROLS_MAPTYPES = "maptypes";
+  const ATTR_CONTROLS_MAPTYPE_DEFAULT = "maptype";
+  const ATTR_CONTROLS_DRAGABLE = "dragable";
+  const ATTR_CONTROLS_ZOOMABLE = "zoomable";
+  const ATTR_CONTROLS_MAPTYPE_SELECTABLE = "maptype_selectable";
+  const ATTR_CONTROLS_STREETVIEW = "streetview";
+  const ATTR_CONTROLS_FITBOUNDS_MARKER = "fitbounds_marker";
+  const ATTR_CONTROLS_FITBOUNDS_KML = "fitbounds_kml";
+  
+  const JS_ATTR_GOOGLEMAPS = "data-gmaps";
+  const JS_ATTR_CLASS = "class";
+  const JS_ATTR_LAT = "data-gmaps-lat";
+  const JS_ATTR_LNG = "data-gmaps-lng";
+  const JS_ATTR_ZOOM = "data-gmaps-zoom";
+  const JS_ATTR_PLACE = "data-gmaps-place";
+  const JS_ATTR_DEBUG = "data-gmaps-debug";
+  const JS_OBJECT_KML = "gmaps-kml";
+  const JS_ATTR_KML_TITLE = "title";
+  const JS_ATTR_KML_FILE = "file";
+  const JS_OBJECT_CONTROLS = "gmaps-controls";
+  const JS_ATTR_CONTROLS_MAPTYPES = "maptypes";
+  const JS_ATTR_CONTROLS_MAPTYPE_DEFAULT = "maptype-default";
+  const JS_ATTR_CONTROLS_DRAGABLE = "dragable";
+  const JS_ATTR_CONTROLS_ZOOMABLE = "zoomable";
+  const JS_ATTR_CONTROLS_MAPTYPE_SELECTABLE = "maptype-selectable";
+  const JS_ATTR_CONTROLS_STREETVIEW = "streetview";
+  const JS_ATTR_CONTROLS_FITBOUNDS_MARKER = "fitbounds-marker";
+  const JS_ATTR_CONTROLS_FITBOUNDS_KML = "fitbounds-kml";
+  const JS_OBJECT_STYLE = "gmaps-style";
+  const JS_ATTR_STYLE_FILE = "file";
+  const JS_ATTR_STYLE_CONTENT = "content";
+  const JS_OBJECT_MARKER = "gmaps-marker";
+  const JS_ATTR_MARKER_TITLE = "title";
+  const JS_ATTR_MARKER_LAT = "lat";
+  const JS_ATTR_MARKER_LNG = "lng";
+  const JS_ATTR_MARKER_CONTENT = "content";
+  
+  const CONFIG_PARA_DEBUG = "kirby.extension.gmaps.debug";
+  const CONFIG_PARA_PROFILE = "kirby.extension.gmaps.profile";
   const CONFIG_PARA_CLASS = "kirby.extension.gmaps.class";
+  const CONFIG_PARA_LAT = "kirby.extension.gmaps.lat";
+  const CONFIG_PARA_LNG = "kirby.extension.gmaps.lng";
   const CONFIG_PARA_ZOOM = "kirby.extension.gmaps.zoom";
-  const CONFIG_PARA_MARKER = "kirby.extension.gmaps.marker";
-  const CONFIG_PARA_UI_DRAGGABLE = 'kirby.extension.gmaps.ui.draggable';
-  const CONFIG_PARA_UI_ZOOM = 'kirby.extension.gmaps.ui.zoom';
+  const CONFIG_PARA_CONTROLS_MAPTYPES = 'kirby.extension.gmaps.controls.maptypes';
+  const CONFIG_PARA_CONTROLS_MAPTYPE_SELECTABLE = 'kirby.extension.gmaps.controls.maptype_selectable';
+  const CONFIG_PARA_CONTROLS_MAPTYPE_DEFAULT = "kirby.extension.gmaps.controls.maptype.default";
+  const CONFIG_PARA_CONTROLS_DRAGGABLE = 'kirby.extension.gmaps.controls.draggable';
+  const CONFIG_PARA_CONTROLS_ZOOMABLE = 'kirby.extension.gmaps.controls.zoomable';
+  const CONFIG_PARA_CONTROLS_STREETVIEW = 'kirby.extension.gmaps.controls.streetview';
+  const CONFIG_PARA_CONTROLS_FITBOUNDS_MARKER = 'kirby.extension.gmaps.controls.fitbounds.marker';
+  const CONFIG_PARA_CONTROLS_FITBOUNDS_KML = 'kirby.extension.gmaps.controls.fitbounds.kml';
   
-  protected  $para_mapping = [
-    self::ATTR_CLASS => self::PARA_CLASS,
-    self::ATTR_LAT => self::PARA_LAT,
-    self::ATTR_LNG => self::PARA_LNG,
-    self::ATTR_ZOOM => self::PARA_ZOOM,
-    self::ATTR_KML => self::PARA_KML,
-    self::ATTR_MARKER => self::PARA_MARKER,
-    self::ATTR_UI_DRAGGABLE => self::PARA_UI_DRAGGABLE,
-    self::ATTR_UI_ZOOM => self::PARA_UI_ZOOM
+  protected $para_mapping_root = [
+    self::ATTR_CLASS => self::JS_ATTR_CLASS,
+    self::ATTR_LAT => self::JS_ATTR_LAT,
+    self::ATTR_LNG => self::JS_ATTR_LNG,
+    self::ATTR_ZOOM => self::JS_ATTR_ZOOM,
+    self::ATTR_PLACE => self::JS_ATTR_PLACE,
+    self::ATTR_DEBUG => self::JS_ATTR_DEBUG
+  ];
+  
+  protected $para_mapping_kml = [
+    self::ATTR_KML_TITLE => self::JS_ATTR_KML_TITLE,
+    self::ATTR_KML_FILE => self::JS_ATTR_KML_FILE
+  ];
+  
+  protected $para_mapping_marker = [
+    self::ATTR_MARKER_TITLE => self::JS_ATTR_MARKER_TITLE,
+    self::ATTR_MARKER_LAT => self::JS_ATTR_MARKER_LAT,
+    self::ATTR_MARKER_LNG => self::JS_ATTR_MARKER_LNG,
+    self::ATTR_MARKER_CONTENT => self::JS_ATTR_MARKER_CONTENT
+  ];
+  
+  protected $para_mapping_style = [
+    self::ATTR_STYLE_FILE => self::JS_ATTR_STYLE_FILE,
+    self::ATTR_STYLE_CONTENT => self::JS_ATTR_STYLE_CONTENT
+  ];
+  
+  protected $para_mapping_controls = [
+    self::ATTR_CONTROLS_DRAGABLE => self::JS_ATTR_CONTROLS_DRAGABLE,
+    self::ATTR_CONTROLS_ZOOMABLE => self::JS_ATTR_CONTROLS_ZOOMABLE,
+    self::ATTR_CONTROLS_MAPTYPE_SELECTABLE => self::JS_ATTR_CONTROLS_MAPTYPE_SELECTABLE,
+    self::ATTR_CONTROLS_MAPTYPES => self::JS_ATTR_CONTROLS_MAPTYPES,
+    self::ATTR_CONTROLS_MAPTYPE_DEFAULT => self::JS_ATTR_CONTROLS_MAPTYPE_DEFAULT,
+    self::ATTR_CONTROLS_STREETVIEW => self::JS_ATTR_CONTROLS_STREETVIEW,
+    self::ATTR_CONTROLS_FITBOUNDS_MARKER => self::JS_ATTR_CONTROLS_FITBOUNDS_MARKER,
+    self::ATTR_CONTROLS_FITBOUNDS_KML => self::JS_ATTR_CONTROLS_FITBOUNDS_KML
   ];
   
   /**
@@ -47,6 +124,9 @@ class GMaps {
    */
   protected $page = null;
   protected $default = array();
+  protected $default_marker = array();
+  protected $default_kml = array();
+  protected $default_controls = array();
   protected $data = array();
   
   public function __construct(\Page $page) {
@@ -55,15 +135,40 @@ class GMaps {
   }
   
   protected function loadDefaults(){
-    $this->default[self::PARA_GOOGLEMAPS] = 'true';
-    $this->default[self::PARA_CLASS] = kirby()->option(self::CONFIG_PARA_CLASS, 'googlemaps');
-    $this->default[self::PARA_LAT] = false;
-    $this->default[self::PARA_LNG] = false;
-    $this->default[self::PARA_ZOOM] = kirby()->option(self::CONFIG_PARA_ZOOM, 7);
-    $this->default[self::PARA_KML] = false;
-    $this->default[self::PARA_MARKER] = kirby()->option(self::CONFIG_PARA_MARKER, false);
-    $this->default[self::PARA_UI_DRAGGABLE] = kirby()->option(self::CONFIG_PARA_UI_DRAGGABLE, true);
-    $this->default[self::PARA_UI_ZOOM] = kirby()->option(self::CONFIG_PARA_UI_ZOOM, true);
+    $this->default[self::JS_ATTR_GOOGLEMAPS] = 'true';
+    $this->default[self::JS_ATTR_CLASS] = kirby()->option(self::CONFIG_PARA_CLASS, 'googlemaps');
+    $this->default[self::JS_ATTR_LAT] = kirby()->option(self::CONFIG_PARA_LAT, "0.0");
+    $this->default[self::JS_ATTR_LNG] = kirby()->option(self::CONFIG_PARA_LNG, "0.0");
+    $this->default[self::JS_ATTR_ZOOM] = kirby()->option(self::CONFIG_PARA_ZOOM, 7);
+    $this->default[self::JS_ATTR_PLACE] = false;
+    $this->default[self::JS_ATTR_DEBUG] = kirby()->option(self::CONFIG_PARA_DEBUG, false);
+    
+    $this->default[self::JS_OBJECT_KML] = array();
+    $this->default[self::JS_OBJECT_MARKER] = array();
+    $this->default[self::JS_OBJECT_STYLE] = array();
+    $this->default[self::JS_OBJECT_CONTROLS] = array();
+    
+    $this->default_marker[self::JS_ATTR_MARKER_TITLE] = false;
+    $this->default_marker[self::JS_ATTR_MARKER_LAT] = 0.0;
+    $this->default_marker[self::JS_ATTR_MARKER_LNG] = 0.0;
+    $this->default_marker[self::JS_ATTR_MARKER_CONTENT] = false;
+    
+    $this->default_kml[self::JS_ATTR_KML_TITLE] = false;
+    $this->default_kml[self::JS_ATTR_KML_FILE] = false;
+    
+    $this->default_style[self::JS_ATTR_STYLE_FILE] = false;
+    $this->default_style[self::JS_ATTR_STYLE_CONTENT] = false;
+    $this->default[self::JS_OBJECT_STYLE] = $this->default_style;
+    
+    $this->default_controls[self::JS_ATTR_CONTROLS_DRAGABLE] = kirby()->option(self::CONFIG_PARA_CONTROLS_DRAGGABLE, true);
+    $this->default_controls[self::JS_ATTR_CONTROLS_ZOOMABLE] = kirby()->option(self::CONFIG_PARA_CONTROLS_ZOOMABLE, true);
+    $this->default_controls[self::JS_ATTR_CONTROLS_MAPTYPES] = kirby()->option(self::CONFIG_PARA_CONTROLS_MAPTYPES, "roadmap,satellite,hybrid,terrain");
+    $this->default_controls[self::JS_ATTR_CONTROLS_MAPTYPE_DEFAULT] = kirby()->option(self::CONFIG_PARA_CONTROLS_MAPTYPE_DEFAULT, "roadmap");
+    $this->default_controls[self::JS_ATTR_CONTROLS_MAPTYPE_SELECTABLE] = kirby()->option(self::CONFIG_PARA_CONTROLS_MAPTYPE_SELECTABLE, true);
+    $this->default_controls[self::JS_ATTR_CONTROLS_STREETVIEW] = kirby()->option(self::CONFIG_PARA_CONTROLS_STREETVIEW, true);
+    $this->default_controls[self::JS_ATTR_CONTROLS_FITBOUNDS_MARKER] = kirby()->option(self::CONFIG_PARA_CONTROLS_FITBOUNDS_MARKER, true);
+    $this->default_controls[self::JS_ATTR_CONTROLS_FITBOUNDS_KML] = kirby()->option(self::CONFIG_PARA_CONTROLS_FITBOUNDS_KML, true);
+    $this->default[self::JS_OBJECT_CONTROLS] = $this->default_controls;
   }
   
   public function getDefaults(){
@@ -71,7 +176,7 @@ class GMaps {
   }
   
   public function parseAndConvertTags($value, array $attr_template = null){
-    $value = $this->parseAndConvertTag('googlemaps',$value, $attr_template);
+    $value = $this->parseAndConvertTag(self::OBJECT_ROOT,$value, $attr_template);
     return $value;
   }
   
@@ -94,12 +199,86 @@ class GMaps {
   
   public function parse($tag, array $block, array $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
-      $this->data = $this->convertAndMergeAttributes( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
-    else 
-      $this->data = $this->convertAndMergeAttributes( $tag, null, $attr_template );
+      $this->data = $this->convertAndMergeAttributesRoot( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+    else
+      $this->data = $this->convertAndMergeAttributesRoot( $tag, null, $attr_template );
+  
+    //Controls
+    $this->parseControls(self::OBJECT_CONTROLS, $block, $attr_template);
+    
+    $offset = 0;
+    while( ($block_intern = WebHelper::getblock(self::OBJECT_CONTROLS, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
+      $content = "";
+      $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
+      $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      
+      $this->parseControls(self::OBJECT_CONTROLS, $block_intern, $attr_template[self::OBJECT_CONTROLS]);
+    }   
+    
+    //Kml
+    $offset = 0;
+    while( ($block_intern = WebHelper::getblock(self::OBJECT_KML, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
+      $content = "";
+      $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
+      $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      
+      $this->parseKml(self::OBJECT_KML, $block_intern, $attr_template[self::OBJECT_KML]);
+    }     
+    
+    //Marker
+    $offset = 0;
+    while( ($block_intern = WebHelper::getblock(self::OBJECT_MARKER, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
+      $content = "";
+      $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
+      $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      
+      $this->parseMarker(self::OBJECT_MARKER, $block_intern, $attr_template[self::OBJECT_MARKER]);
+    }
+    
+    //Style
+    $offset = 0;
+    while( ($block_intern = WebHelper::getblock(self::OBJECT_STYLE, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
+      $content = "";
+      $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
+      $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
+      
+      $this->parseStyle(self::OBJECT_STYLE, $block_intern, $attr_template[self::OBJECT_STYLE]);
+    }     
   }
   
-  protected function convertAndMergeAttributes($tag, array $attr = null, array $attr_template = null){
+  public function parseControls($tag, array $block, array $attr_template = null){
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
+      $this->data[self::JS_OBJECT_CONTROLS] = $this->convertAndMergeAttributesControls( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+    else 
+      $this->data[self::JS_OBJECT_CONTROLS] = $this->convertAndMergeAttributesControls( $tag, null, $attr_template );
+  }
+  
+  public function parseKml($tag, array $block, array $attr_template = null){
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
+      $this->data[self::JS_OBJECT_KML][] = $this->convertAndMergeAttributesKml( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+    else 
+      $this->data[self::JS_OBJECT_KML][] = $this->convertAndMergeAttributesKml( $tag, null, $attr_template );
+  }
+  
+  public function parseMarker($tag, array $block, array $attr_template = null){
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
+      $this->data[self::JS_OBJECT_MARKER][] = $this->convertAndMergeAttributesMarker( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+    else 
+      $this->data[self::JS_OBJECT_MARKER][] = $this->convertAndMergeAttributesMarker( $tag, null, $attr_template );
+  }
+  
+  public function parseStyle($tag, array $block, array $attr_template = null){
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
+      $this->data[self::JS_OBJECT_STYLE] = $this->convertAndMergeAttributesStyle( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
+    else 
+      $this->data[self::JS_OBJECT_STYLE] = $this->convertAndMergeAttributesStyle( $tag, null, $attr_template );
+  }
+  
+  protected function convertAndMergeAttributesRoot($tag, array $attr = null, array $attr_template = null){
     $attr_result = array();
     $attr_result = $this->getDefaults();
 
@@ -112,8 +291,104 @@ class GMaps {
     
     if ( is_array( $attr ) ) {
       foreach($attr as $key => $value){
-        if ( array_key_exists($key, $this->para_mapping) )
-          $key = $this->para_mapping[$key];
+        if ( array_key_exists($key, $this->para_mapping_root) )
+          $key = $this->para_mapping_root[$key];
+        
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $this->checkValue( $key, $value );
+      }
+    }
+    
+    return $attr_result;
+  }
+  
+  protected function convertAndMergeAttributesControls($tag, array $attr = null, array $attr_template = null){
+    $attr_result = array();
+    $attr_result = $this->default_controls;
+    
+    if ( is_array($attr_template) ) {
+      foreach ( $attr_template as $key => $value ) {
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $value;
+      }
+    }
+
+    if ( is_array( $attr ) ) {
+      foreach($attr as $key => $value){
+        if ( array_key_exists($key, $this->para_mapping_controls) )
+          $key = $this->para_mapping_controls[$key];
+        
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $this->checkValue( $key, $value );
+      }
+    }
+
+    return $attr_result;
+  }
+  
+  protected function convertAndMergeAttributesKml($tag, array $attr = null, array $attr_template = null){
+    $attr_result = array();
+    $attr_result = $this->default_kml;
+    
+    if ( is_array($attr_template) ) {
+      foreach ( $attr_template as $key => $value ) {
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $value;
+      }
+    }
+    
+    if ( is_array( $attr ) ) {
+      foreach($attr as $key => $value){
+        if ( array_key_exists($key, $this->para_mapping_kml) )
+          $key = $this->para_mapping_kml[$key];
+        
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $this->checkValue( $key, $value );
+      }
+    }
+    
+    return $attr_result;
+  }
+  
+  protected function convertAndMergeAttributesMarker($tag, array $attr = null, array $attr_template = null){
+    $attr_result = array();
+    $attr_result = $this->default_marker;
+    
+    if ( is_array($attr_template) ) {
+      foreach ( $attr_template as $key => $value ) {
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $value;
+      }
+    }
+    
+    if ( is_array( $attr ) ) {
+      foreach($attr as $key => $value){
+        if ( array_key_exists($key, $this->para_mapping_marker) )
+          $key = $this->para_mapping_marker[$key];
+        
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $this->checkValue( $key, $value );
+      }
+    }
+    
+    return $attr_result;
+  }
+  
+  protected function convertAndMergeAttributesStyle($tag, array $attr = null, array $attr_template = null){
+    $attr_result = array();
+    $attr_result = $this->default_style;
+    
+    if ( is_array($attr_template) ) {
+      foreach ( $attr_template as $key => $value ) {
+        if ( array_key_exists($key, $attr_result) )
+          $attr_result[$key] = $value;
+      }
+    }
+    
+    if ( is_array( $attr ) ) {
+      foreach($attr as $key => $value){
+        if ( array_key_exists($key, $this->para_mapping_style) )
+          $key = $this->para_mapping_style[$key];
         
         if ( array_key_exists($key, $attr_result) )
           $attr_result[$key] = $this->checkValue( $key, $value );
@@ -124,8 +399,8 @@ class GMaps {
   }
   
   protected function checkValue($key, $value){
-    switch ($key){
-      case self::PARA_ZOOM:
+     switch ($key){
+      case self::JS_ATTR_ZOOM:
         if( is_int($value) )
           return $value;
         if ( is_string($value) && is_numeric($value) && intval($value) >= 0 && intval($value) <= 19 ) {
@@ -134,42 +409,157 @@ class GMaps {
           $value = $this->default[self::PARA_ZOOM];
         }
         break;
-      case self::PARA_UI_ZOOM:
-      case self::PARA_UI_DRAGGABLE:
+      case self::JS_ATTR_CONTROLS_DRAGABLE:
+      case self::JS_ATTR_CONTROLS_ZOOMABLE:
+      case self::JS_ATTR_CONTROLS_STREETVIEW:
+      case self::JS_ATTR_CONTROLS_FITBOUNDS_MARKER:
+      case self::JS_ATTR_CONTROLS_FITBOUNDS_KML:
+      case self::JS_ATTR_CONTROLS_MAPTYPE_SELECTABLE:
+      case self::JS_ATTR_DEBUG:
         if ( is_bool($value) )
           return $value;
         $value = ( is_string($value) && $value === 'false' )? false : true;
         break;
-      case self::PARA_KML:
+      case self::JS_ATTR_KML_FILE:
+      case self::JS_ATTR_STYLE_FILE:
         $source = $value;
         $source = ( is_object( $source ) )? $source : $this->page->file( $source );
         if ( $source ) {
           $value = $source->url();
         }
         break;
+      case self::JS_ATTR_LNG:
+      case self::JS_ATTR_LAT:
+      case self::JS_ATTR_MARKER_LNG:
+      case self::JS_ATTR_MARKER_LAT:
+        if ( $value == 0 )
+          $value = "0.0";
+        break;
     }
     return $value;
   }
   
   public function toHTML(){
-    if ( ( $this->data[self::PARA_LAT] === false OR $this->data[self::PARA_LNG] === false ) AND $this->data[self::PARA_KML] === false )
-      return;
-    
-    $attr = array();
-    $attr[self::PARA_CLASS] = $this->data[self::PARA_CLASS];
-    $attr[self::PARA_GOOGLEMAPS] = ($this->data[self::PARA_GOOGLEMAPS])? 'true' : 'false';
-    $attr[self::PARA_LAT] = $this->data[self::PARA_LAT];
-    $attr[self::PARA_LNG] = $this->data[self::PARA_LNG];
-    $attr[self::PARA_ZOOM] = $this->data[self::PARA_ZOOM];
-    $attr[self::PARA_UI_ZOOM] = ($this->data[self::PARA_UI_ZOOM])? 'true' : 'false';
-    $attr[self::PARA_UI_DRAGGABLE] = ($this->data[self::PARA_UI_DRAGGABLE])? 'true' : 'false';
-    if ( $this->data[self::PARA_KML] !== false )
-      $attr[self::PARA_KML] = $this->data[self::PARA_KML];
-    if ( $this->data[self::PARA_MARKER] !== false )
-      $attr[self::PARA_MARKER] = $this->data[self::PARA_MARKER];
-    
-    return \Html::tag('div', "", $attr);
-  }
+    if ( $this->data[self::JS_ATTR_DEBUG] ) {
+      return "<pre><code>".print_r($this->data, true)."</code></pre>";
+    } else {
+      $content = "";
+      
+      //Controls
+      $content_internal = "";
+      $attr = array();
+      foreach ($this->data[self::JS_OBJECT_CONTROLS] as $key => $value) {
+        if ( is_array($value) )
+          $value = "<pre>".print_r($value, true)."</pre>";
+        else{
+          if ( is_array($value) )
+            $value = "<pre>".print_r($value, true)."</pre>";
+          elseif( is_bool($value) && $value )
+            $attr[$key] = $key;
+          else
+            $attr[$key] = $value;
+        }
+      }
+      $html_tag = \Html::tag(self::JS_OBJECT_CONTROLS, $content_internal, $attr);
+      if( is_object($html_tag) )
+        $content .= $html_tag->toString();
+      else
+        $content .= $html_tag;
+      
+      //Kmls
+      foreach ($this->data[self::JS_OBJECT_KML] as $kml) {
+        $content_internal = "";
+        $attr = array();
+        
+        foreach ($kml as $key => $value) {
+          if ( is_array($value) )
+            $value = "<pre>".print_r($value, true)."</pre>";
+          else{
+            if ( is_array($value) )
+              $value = "<pre>".print_r($value, true)."</pre>";
+            elseif( is_bool($value) && $value )
+              $attr[$key] = $key;
+            else
+              $attr[$key] = $value;
+          }
+        }
+        
+        $html_tag = \Html::tag(self::JS_OBJECT_KML, $content_internal, $attr);
+        if( is_object($html_tag) )
+          $content .= $html_tag->toString();
+        else
+          $content .= $html_tag;
+      }
+
+      //Markers
+      foreach ($this->data[self::JS_OBJECT_MARKER] as $marker) {
+        $content_internal = "";
+        $attr = array();
+        foreach ($marker as $key => $value) {
+          if ( is_array($value) )
+            $value = "<pre>".print_r($value, true)."</pre>";
+          else {
+            if( $key === self::JS_ATTR_MARKER_CONTENT )
+              $content_internal = $value;
+            else{
+              if ( is_array($value) )
+                $value = "<pre>".print_r($value, true)."</pre>";
+              elseif( is_bool($value) && $value )
+                $attr[$key] = $key;
+              else
+                $attr[$key] = $value;
+            }
+          }
+        }
+        
+        $html_tag = \Html::tag(self::JS_OBJECT_MARKER, $content_internal, $attr);
+        if( is_object($html_tag) )
+          $content .= $html_tag->toString();
+        else
+          $content .= $html_tag;
+      }
+      
+      //Style
+      $content_internal = "";
+      $attr = array();
+      foreach ($this->data[self::JS_OBJECT_KML] as $key => $value) {
+        if ( is_array($value) )
+          $value = "<pre>".print_r($value, true)."</pre>";
+        else {
+          if( $key === self::JS_ATTR_STYLE_CONTENT )
+            $content_internal = $value;
+          else{
+            if ( is_array($value) )
+              $value = "<pre>".print_r($value, true)."</pre>";
+            elseif( is_bool($value) && $value )
+              $attr[$key] = $key;
+            else
+              $attr[$key] = $value;
+          }
+        }
+      }
+      $html_tag = \Html::tag(self::JS_OBJECT_CONTROLS, $content_internal, $attr);
+      if( is_object($html_tag) )
+        $content .= $html_tag->toString();
+      else
+        $content .= $html_tag;
+      
+      //Root
+      $attr = array();
+      foreach ($this->data as $key => $value) {
+        if ( $key !== self::JS_OBJECT_CONTROLS && $key !== self::JS_OBJECT_KML &&
+             $key !== self::JS_OBJECT_MARKER && $key !== self::JS_OBJECT_STYLE ) {
+          if ( is_array($value) )
+            $value = "<pre>".print_r($value, true)."</pre>";
+          elseif( is_bool($value) && $value )
+            $attr[$key] = $key;
+          else
+            $attr[$key] = $value;
+        }
+      }
+      return \Html::tag('div', $content, $attr);
+    }
+  } 
   
   public static function getGMap($page, $attr = array()){
     if ( !is_array($attr) && count($attr) == 0 )
