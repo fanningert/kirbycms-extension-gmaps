@@ -91,6 +91,7 @@ $ git submodule foreach --recursive git pull
 | `kirby.extension.gmaps.lat` | 0.0 | {number} | Initial LAT-Value for map |
 | `kirby.extension.gmaps.lng` | 0.0 | {number} | Initial LNG-Value for map |
 | `kirby.extension.gmaps.zoom` | 7 | {number 0-19} | Default zoom level |
+| `kirby.extension.gmaps.controls.scale` | true | true/false | Activate/Deactivate scale control |
 | `kirby.extension.gmaps.controls.maptypes` | 'roadmap,satellite,hybrid,terrain' | {string} | |
 | `kirby.extension.gmaps.controls.maptype_selectable` | true | true/false | |
 | `kirby.extension.gmaps.controls.maptype.default` | 'roadmap' | {string} | |
@@ -111,6 +112,7 @@ $ git submodule foreach --recursive git pull
 | lng | | | see `kirby.extension.gmaps.lng` |
 | place | | {string} | alternative location definition over Place API |
 | zoom | | | see `kirby.extension.gmaps.zoom` |
+| scale | | | see `kirby.extension.gmaps.controls.scale` |
 | dragable | | | see `kirby.extension.gmaps.controls.draggable` |
 | zoomable | | | see `kirby.extension.gmaps.controls.zoomable` |
 | maptypes | | | see `kirby.extension.gmaps.controls.maptypes` |
