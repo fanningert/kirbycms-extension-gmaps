@@ -229,5 +229,10 @@ $attr[GMaps::OBJECT_MARKER][0][GMaps::ATTR_MARKER_LNG] = -87.624207;
 $attr[GMaps::OBJECT_MARKER][1] = array();
 $attr[GMaps::OBJECT_MARKER][1][GMaps::ATTR_MARKER_LAT] = -87.624207;
 $attr[GMaps::OBJECT_MARKER][1][GMaps::ATTR_MARKER_LNG] = 41.875696;
+$attr[GMaps::OBJECT_MARKER][2] = array();
+$attr[GMaps::OBJECT_MARKER][2][GMaps::ATTR_MARKER_PLACE] = "Vienna";
+$attr[GMaps::OBJECT_MARKER][3] = array();
+$attr[GMaps::OBJECT_MARKER][3][GMaps::ATTR_MARKER_PLACE] = "New York City";
+$attr[GMaps::OBJECT_MARKER][3][GMaps::ATTR_MARKER_CONTENT] = '<a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>';
 echo GMaps::getGMap($page, $attr);
 ```
