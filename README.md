@@ -136,6 +136,8 @@ $ git submodule foreach --recursive git pull
 | title | | {string} | |
 | lat | 0.0 | {number} | |
 | lng | 0.0 | {number} | |
+| place | | {string} | see `place` at the root element |
+| {content} | | {string} | Add the marker element you can add HTML-Content as element body. This content will be displayed as content of the popup when a user click on the marker. |
 
 ### Examples
 
@@ -207,6 +209,10 @@ echo GMaps::getGMap($page, $attr);
 (googlemaps)
   (marker lat: 41.875696 lng: -87.624207)
   (marker lat: -87.624207 lng: 41.875696)
+  (marker place: Vienna)
+  (marker place: New York City)
+    <a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>
+  (/marker)
 (/googlemaps)
 ```
 

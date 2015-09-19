@@ -10,10 +10,9 @@ function initialize() {
     var ui_maptypes;
     var ui_maptype_default;
     var ui_maptype_selectable;
-    var map;
     var placeService;
+    var map;
     var object_bounds = new google.maps.LatLngBounds();
-    var kml_layers = [];
     
     var lat = jQuery(this).attr('data-gmaps-lat');
     var lng = jQuery(this).attr('data-gmaps-lng');
@@ -94,16 +93,9 @@ function initialize() {
         map: map,
         preserveViewport: ((ui_fitbounds_kml)? false: true)
       });
-      /*kml_layers[kml_layers.length] = ctaLayer;
-      google.maps.event.addListener(ctaLayer, 'defaultviewport_changed', function() {
-        if (ui_fitbounds) {
-          for (var index = 0; index < kml_layers.length; index++) {
-            window.alert(kml_layers[index].constructor.name);
-            //var map_bounds = kml_layers[index].getBounds();
-            //map.fitBounds( object_bounds.union( map_bounds ) );
-          }
-        }
-      });*/
+      if (ui_fitbounds_kml) {
+        google.maps.event.addListener(ctaLayer, 'defaultviewport_changed', kmlDefaultViewCallback(map, ctaLayer, ui_fitbounds_kml, object_bounds) );
+      }
     }
 
     //Marker
@@ -111,15 +103,54 @@ function initialize() {
       var markerTitle = jQuery(gmapsmarkers[index]).attr('title');
       var markerLat = jQuery(gmapsmarkers[index]).attr('lat');
       var markerLng = jQuery(gmapsmarkers[index]).attr('lng');
+      var markerPlace = jQuery(gmapsmarkers[index]).attr('place');
+      var markerContent = jQuery(gmapsmarkers[index]).html(); 
         
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(markerLat, markerLng),
-        map: map,
-        title: markerTitle
-      });
-      if (ui_fitbounds_marker) {
-        map.fitBounds( object_bounds.extend(marker.getPosition()) );
+      if (markerPlace) {
+        placeService = new google.maps.places.PlacesService( map );
+        placeService.textSearch({
+          query: markerPlace
+        }, markerPlaceCallback(map, markerTitle, markerContent, ui_fitbounds_marker, object_bounds) );
+      } else if( markerLat && markerLng ) {
+        addMarker(map, markerTitle, new google.maps.LatLng(markerLat, markerLng), markerContent, ui_fitbounds_marker, object_bounds);     
       }
     }
   });
+}
+
+function markerPlaceCallback(map, title, content, fitbounds, object_bounds){
+  return function(results, status) {
+    for (var index = 0; index < 1; index++) {
+      addMarker(map, title, results[index].geometry.location, content, fitbounds, object_bounds);
+    }
+  }
+}
+
+function addMarker(map, title, position, content, fitbounds, object_bounds) {
+  var marker = new google.maps.Marker({
+    position: position,
+    map: map,
+    title: title
+  });
+  
+  if (content) {
+    var infowindow = new google.maps.InfoWindow({
+      content: content
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+  
+  if (fitbounds && object_bounds) {
+    map.fitBounds( object_bounds.extend(marker.getPosition()) );
+  }
+}
+
+function kmlDefaultViewCallback(map, layer, fitbounds, object_bounds){
+  return function() {
+    if (fitbounds && object_bounds) {
+      map.fitBounds( object_bounds.union(layer.getDefaultViewport()) );
+    }
+  }
 }

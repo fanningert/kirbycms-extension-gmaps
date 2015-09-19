@@ -1,3 +1,8 @@
+# 1.3
+
+- Marker support now the `place` attribute
+- Marker support now HTML content als HTML element body. This content will be displayed as content of the popup when a user click on the marker.
+
 # 1.2
 
 - Add config-value `kirby.extension.gmaps.controls.scale` for scaleControl

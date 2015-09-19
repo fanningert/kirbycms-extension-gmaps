@@ -26,6 +26,7 @@ class GMaps {
   const ATTR_MARKER_TITLE = "title";
   const ATTR_MARKER_LAT = "lat";
   const ATTR_MARKER_LNG = "lng";
+  const ATTR_MARKER_PLACE = "place";
   const ATTR_MARKER_CONTENT = "content";
   
   const ATTR_STYLE_FILE = "file";
@@ -68,6 +69,7 @@ class GMaps {
   const JS_ATTR_MARKER_TITLE = "title";
   const JS_ATTR_MARKER_LAT = "lat";
   const JS_ATTR_MARKER_LNG = "lng";
+  const JS_ATTR_MARKER_PLACE = "place";
   const JS_ATTR_MARKER_CONTENT = "content";
   
   const CONFIG_PARA_DEBUG = "kirby.extension.gmaps.debug";
@@ -104,6 +106,7 @@ class GMaps {
     self::ATTR_MARKER_TITLE => self::JS_ATTR_MARKER_TITLE,
     self::ATTR_MARKER_LAT => self::JS_ATTR_MARKER_LAT,
     self::ATTR_MARKER_LNG => self::JS_ATTR_MARKER_LNG,
+    self::ATTR_MARKER_PLACE => self::JS_ATTR_MARKER_PLACE,
     self::ATTR_MARKER_CONTENT => self::JS_ATTR_MARKER_CONTENT
   ];
   
@@ -156,6 +159,7 @@ class GMaps {
     $this->default_marker[self::JS_ATTR_MARKER_TITLE] = false;
     $this->default_marker[self::JS_ATTR_MARKER_LAT] = 0.0;
     $this->default_marker[self::JS_ATTR_MARKER_LNG] = 0.0;
+    $this->default_marker[self::JS_ATTR_MARKER_PLACE] = false;
     $this->default_marker[self::JS_ATTR_MARKER_CONTENT] = false;
     
     $this->default_kml[self::JS_ATTR_KML_TITLE] = false;
@@ -279,6 +283,11 @@ class GMaps {
       $this->data[self::JS_OBJECT_MARKER][] = $this->convertAndMergeAttributesMarker( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else 
       $this->data[self::JS_OBJECT_MARKER][] = $this->convertAndMergeAttributesMarker( $tag, null, $attr_template );
+      
+    // Content
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) && strlen( $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT] ) > 0 ) {
+      $this->data[self::JS_OBJECT_MARKER][(count($this->data[self::JS_OBJECT_MARKER])-1)][self::JS_ATTR_MARKER_CONTENT] = $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT];
+    }
   }
   
   public function parseStyle($tag, array $block, array $attr_template = null){
