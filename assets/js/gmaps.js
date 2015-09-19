@@ -3,6 +3,7 @@ function initialize() {
   jQuery("[data-gmaps='true']").each(function(){
     var ui_dragable;
     var ui_zoomable;
+    var ui_scale;
     var ui_streetview;
     var ui_fitbounds_marker;
     var ui_fitbounds_kml;
@@ -23,6 +24,7 @@ function initialize() {
     if(gmapsControls) {
       ui_dragable = gmapsControls.attr('dragable');
       ui_zoomable = gmapsControls.attr('zoomable');
+      ui_scale = gmapsControls.attr('scale');
       ui_streetview = gmapsControls.attr('streetview');
       ui_fitbounds_marker = gmapsControls.attr('fitbounds-marker');
       ui_fitbounds_kml = gmapsControls.attr('fitbounds-kml');
@@ -62,6 +64,9 @@ function initialize() {
     }
     if (!ui_maptype_selectable) {
       mapOptions.mapTypeControl = false;
+    }
+    if (ui_scale) {
+      mapOptions.scaleControl = true;
     }
   
     map = new google.maps.Map(jQuery(this)[0], mapOptions);

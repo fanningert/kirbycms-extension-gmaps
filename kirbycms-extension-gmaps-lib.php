@@ -12,6 +12,7 @@ class GMaps {
   const ATTR_ZOOM = "zoom";
   const ATTR_PLACE = "place";
   const ATTR_PROFILE = "profile";
+  const ATTR_KML = "kml";
   const ATTR_DEBUG = "debug";
   const OBJECT_ROOT = "googlemaps";
   const OBJECT_MARKER = "marker";
@@ -34,6 +35,7 @@ class GMaps {
   const ATTR_CONTROLS_MAPTYPE_DEFAULT = "maptype";
   const ATTR_CONTROLS_DRAGABLE = "dragable";
   const ATTR_CONTROLS_ZOOMABLE = "zoomable";
+  const ATTR_CONTROLS_SCALE = "scale";
   const ATTR_CONTROLS_MAPTYPE_SELECTABLE = "maptype_selectable";
   const ATTR_CONTROLS_STREETVIEW = "streetview";
   const ATTR_CONTROLS_FITBOUNDS_MARKER = "fitbounds_marker";
@@ -54,6 +56,7 @@ class GMaps {
   const JS_ATTR_CONTROLS_MAPTYPE_DEFAULT = "maptype-default";
   const JS_ATTR_CONTROLS_DRAGABLE = "dragable";
   const JS_ATTR_CONTROLS_ZOOMABLE = "zoomable";
+  const JS_ATTR_CONTROLS_SCALE = "scale";
   const JS_ATTR_CONTROLS_MAPTYPE_SELECTABLE = "maptype-selectable";
   const JS_ATTR_CONTROLS_STREETVIEW = "streetview";
   const JS_ATTR_CONTROLS_FITBOUNDS_MARKER = "fitbounds-marker";
@@ -78,6 +81,7 @@ class GMaps {
   const CONFIG_PARA_CONTROLS_MAPTYPE_DEFAULT = "kirby.extension.gmaps.controls.maptype.default";
   const CONFIG_PARA_CONTROLS_DRAGGABLE = 'kirby.extension.gmaps.controls.draggable';
   const CONFIG_PARA_CONTROLS_ZOOMABLE = 'kirby.extension.gmaps.controls.zoomable';
+  const CONFIG_PARA_CONTROLS_SCALE = 'kirby.extension.gmaps.controls.scale';
   const CONFIG_PARA_CONTROLS_STREETVIEW = 'kirby.extension.gmaps.controls.streetview';
   const CONFIG_PARA_CONTROLS_FITBOUNDS_MARKER = 'kirby.extension.gmaps.controls.fitbounds.marker';
   const CONFIG_PARA_CONTROLS_FITBOUNDS_KML = 'kirby.extension.gmaps.controls.fitbounds.kml';
@@ -116,7 +120,8 @@ class GMaps {
     self::ATTR_CONTROLS_MAPTYPE_DEFAULT => self::JS_ATTR_CONTROLS_MAPTYPE_DEFAULT,
     self::ATTR_CONTROLS_STREETVIEW => self::JS_ATTR_CONTROLS_STREETVIEW,
     self::ATTR_CONTROLS_FITBOUNDS_MARKER => self::JS_ATTR_CONTROLS_FITBOUNDS_MARKER,
-    self::ATTR_CONTROLS_FITBOUNDS_KML => self::JS_ATTR_CONTROLS_FITBOUNDS_KML
+    self::ATTR_CONTROLS_FITBOUNDS_KML => self::JS_ATTR_CONTROLS_FITBOUNDS_KML,
+    self::ATTR_CONTROLS_SCALE => self::JS_ATTR_CONTROLS_SCALE
   ];
   
   /**
@@ -162,6 +167,7 @@ class GMaps {
     
     $this->default_controls[self::JS_ATTR_CONTROLS_DRAGABLE] = kirby()->option(self::CONFIG_PARA_CONTROLS_DRAGGABLE, true);
     $this->default_controls[self::JS_ATTR_CONTROLS_ZOOMABLE] = kirby()->option(self::CONFIG_PARA_CONTROLS_ZOOMABLE, true);
+    $this->default_controls[self::JS_ATTR_CONTROLS_SCALE] = kirby()->option(self::CONFIG_PARA_CONTROLS_SCALE, true);
     $this->default_controls[self::JS_ATTR_CONTROLS_MAPTYPES] = kirby()->option(self::CONFIG_PARA_CONTROLS_MAPTYPES, "roadmap,satellite,hybrid,terrain");
     $this->default_controls[self::JS_ATTR_CONTROLS_MAPTYPE_DEFAULT] = kirby()->option(self::CONFIG_PARA_CONTROLS_MAPTYPE_DEFAULT, "roadmap");
     $this->default_controls[self::JS_ATTR_CONTROLS_MAPTYPE_SELECTABLE] = kirby()->option(self::CONFIG_PARA_CONTROLS_MAPTYPE_SELECTABLE, true);
@@ -203,9 +209,10 @@ class GMaps {
     else
       $this->data = $this->convertAndMergeAttributesRoot( $tag, null, $attr_template );
   
-    //Controls
+    //Controls - Root
     $this->parseControls(self::OBJECT_CONTROLS, $block, $attr_template);
     
+    //Controls
     $offset = 0;
     while( ($block_intern = WebHelper::getblock(self::OBJECT_CONTROLS, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
       $content = "";
@@ -216,7 +223,10 @@ class GMaps {
       $this->parseControls(self::OBJECT_CONTROLS, $block_intern, $attr_template[self::OBJECT_CONTROLS]);
     }   
     
-    //Kml
+    //KML -Root
+    
+    
+    //KML
     $offset = 0;
     while( ($block_intern = WebHelper::getblock(self::OBJECT_KML, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
       $content = "";

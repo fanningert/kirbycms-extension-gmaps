@@ -1,3 +1,8 @@
+# 1.2
+
+- Add config-value `kirby.extension.gmaps.controls.scale` for scaleControl
+- Add attribute `scale` for scaleControl
+
 # 1.1
 
 - Multi KMLs (Google Maps API supported 5 Layers. When you need more KML files, use the Network Link feature of the KML files)
