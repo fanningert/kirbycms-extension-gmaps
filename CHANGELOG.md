@@ -1,3 +1,7 @@
+# 1.4
+
+- Add licence file
+
 # 1.3
 
 - Marker support now the `place` attribute
