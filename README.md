@@ -175,7 +175,7 @@ echo GMaps::getGMap($page, $attr);
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
-$attr[ATTR_PLACE] = 'Vienna';
+$attr[JS_ATTR_PLACE] = 'Vienna';
 echo GMaps::getGMap($page, $attr);
 ```
 
@@ -195,9 +195,9 @@ echo GMaps::getGMap($page, $attr);
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
-$attr[GMaps::OBJECT_KML] = array();
-$attr[GMaps::OBJECT_KML][0] = array();
-$attr[GMaps::OBJECT_KML][0][GMaps::ATTR_KML_FILE] = '.../cta.kml';
+$attr[GMaps::JS_OBJECT_KML] = array();
+$attr[GMaps::JS_OBJECT_KML][0] = array();
+$attr[GMaps::JS_OBJECT_KML][0][GMaps::JS_ATTR_KML_FILE] = '.../cta.kml';
 echo GMaps::getGMap($page, $attr);
 ```
 
@@ -222,17 +222,17 @@ echo GMaps::getGMap($page, $attr);
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
-$attr[GMaps::OBJECT_MARKER] = array();
-$attr[GMaps::OBJECT_MARKER][0] = array();
-$attr[GMaps::OBJECT_MARKER][0][GMaps::ATTR_MARKER_LAT] = 41.875696;
-$attr[GMaps::OBJECT_MARKER][0][GMaps::ATTR_MARKER_LNG] = -87.624207;
-$attr[GMaps::OBJECT_MARKER][1] = array();
-$attr[GMaps::OBJECT_MARKER][1][GMaps::ATTR_MARKER_LAT] = -87.624207;
-$attr[GMaps::OBJECT_MARKER][1][GMaps::ATTR_MARKER_LNG] = 41.875696;
-$attr[GMaps::OBJECT_MARKER][2] = array();
-$attr[GMaps::OBJECT_MARKER][2][GMaps::ATTR_MARKER_PLACE] = "Vienna";
-$attr[GMaps::OBJECT_MARKER][3] = array();
-$attr[GMaps::OBJECT_MARKER][3][GMaps::ATTR_MARKER_PLACE] = "New York City";
-$attr[GMaps::OBJECT_MARKER][3][GMaps::ATTR_MARKER_CONTENT] = '<a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>';
+$attr[GMaps::JS_OBJECT_MARKER] = array();
+$attr[GMaps::JS_OBJECT_MARKER][0] = array();
+$attr[GMaps::JS_OBJECT_MARKER][0][GMaps::JS_ATTR_MARKER_LAT] = 41.875696;
+$attr[GMaps::JS_OBJECT_MARKER][0][GMaps::JS_ATTR_MARKER_LNG] = -87.624207;
+$attr[GMaps::JS_OBJECT_MARKER][1] = array();
+$attr[GMaps::JS_OBJECT_MARKER][1][GMaps::JS_ATTR_MARKER_LAT] = -87.624207;
+$attr[GMaps::JS_OBJECT_MARKER][1][GMaps::JS_ATTR_MARKER_LNG] = 41.875696;
+$attr[GMaps::JS_OBJECT_MARKER][2] = array();
+$attr[GMaps::JS_OBJECT_MARKER][2][GMaps::JS_ATTR_MARKER_PLACE] = "Vienna";
+$attr[GMaps::JS_OBJECT_MARKER][3] = array();
+$attr[GMaps::JS_OBJECT_MARKER][3][GMaps::JS_ATTR_MARKER_PLACE] = "New York City";
+$attr[GMaps::JS_OBJECT_MARKER][3][GMaps::JS_ATTR_MARKER_CONTENT] = '<a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>';
 echo GMaps::getGMap($page, $attr);
 ```
