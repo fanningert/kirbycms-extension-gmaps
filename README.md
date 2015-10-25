@@ -155,9 +155,9 @@ $ git submodule foreach --recursive git pull
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
-$attr[GMaps::ATTR_LAT] = 35.7152128;
-$attr[GMaps::ATTR_LNG] = 139.7981552;
-$attr[GMaps::ATTR_ZOOM] = 4;
+$attr[GMaps::JS_ATTR_LAT] = 35.7152128;
+$attr[GMaps::JS_ATTR_LNG] = 139.7981552;
+$attr[GMaps::JS_ATTR_ZOOM] = 4;
 echo GMaps::getGMap($page, $attr);
 ```
 

@@ -207,7 +207,7 @@ class GMaps {
     return $value;
   }
   
-  public function parse($tag, array $block, array $attr_template = null){
+  public function parse($tag, $block, $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
       $this->data = $this->convertAndMergeAttributesRoot( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else
@@ -218,16 +218,20 @@ class GMaps {
     
     //Controls
     $offset = 0;
-    if ( array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
       while( ($block_intern = WebHelper::getblock(self::OBJECT_CONTROLS, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
         $content = "";
         $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
         $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         
-        $this->parseControls(self::OBJECT_CONTROLS, $block_intern, $attr_template[self::OBJECT_CONTROLS]);
+        if ( is_array($attr_template) && array_key_exists(self::OBJECT_CONTROLS, $attr_template) ) {
+          $this->parseControls(self::OBJECT_CONTROLS, $block_intern, $attr_template[self::OBJECT_CONTROLS]);
+        }else{
+          $this->parseControls(self::OBJECT_CONTROLS, $block_intern, null);
+        }
       }
-    }else{
+    }else if ( is_array($attr_template) && array_key_exists(self::OBJECT_CONTROLS, $attr_template) ) {
       $this->parseControls(self::OBJECT_CONTROLS, false, $attr_template[self::OBJECT_CONTROLS]);
     }
     
@@ -236,65 +240,77 @@ class GMaps {
     
     //KML
     $offset = 0;
-    if ( array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
       while( ($block_intern = WebHelper::getblock(self::OBJECT_KML, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
         $content = "";
         $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
         $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         
-        $this->parseKml(self::OBJECT_KML, $block_intern, $attr_template[self::OBJECT_KML]);
+        if ( is_array($attr_template) && array_key_exists(self::OBJECT_KML, $attr_template) ) {
+          $this->parseKml(self::OBJECT_KML, $block_intern, $attr_template[self::OBJECT_KML]);
+        }else{
+          $this->parseKml(self::OBJECT_CONTROLS, $block_intern, null);
+        }
       }   
-    }else{
+    }else if ( is_array($attr_template) && array_key_exists(self::OBJECT_KML, $attr_template) ) {
       $this->parseKml(self::OBJECT_KML, null, $attr_template[self::OBJECT_KML]);
     } 
     
     //Marker
     $offset = 0;
-    if ( array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
       while( ($block_intern = WebHelper::getblock(self::OBJECT_MARKER, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
         $content = "";
         $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
         $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         
-        $this->parseMarker(self::OBJECT_MARKER, $block_intern, $attr_template[self::OBJECT_MARKER]);
+        if ( is_array($attr_template) && array_key_exists(self::OBJECT_MARKER, $attr_template) ) {
+          $this->parseMarker(self::OBJECT_MARKER, $block_intern, $attr_template[self::OBJECT_MARKER]);
+        }else{
+          $this->parseMarker(self::OBJECT_MARKER, $block_intern, null);
+        }
       }
-    }else{
+    }else if ( is_array($attr_template) && array_key_exists(self::OBJECT_MARKER, $attr_template) ) {
       $this->parseMarker(self::OBJECT_MARKER, null, $attr_template[self::OBJECT_MARKER]);
     }
     
     //Style
     $offset = 0;
-    if ( array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
+    if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_CONTENT, $block) ) {
       while( ($block_intern = WebHelper::getblock(self::OBJECT_STYLE, $block[WebHelper::BLOCK_ARRAY_VALUE_CONTENT], $offset)) !== false ) {
         $content = "";
         $offset = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS];
         $start = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         $length = $block_intern[WebHelper::BLOCK_ARRAY_VALUE_ENDPOS]-$block_intern[WebHelper::BLOCK_ARRAY_VALUE_STARTPOS];
         
-        $this->parseStyle(self::OBJECT_STYLE, $block_intern, $attr_template[self::OBJECT_STYLE]);
+        if ( is_array($attr_template) && array_key_exists(self::OBJECT_STYLE, $attr_template) ) {
+          $this->parseStyle(self::OBJECT_STYLE, $block_intern, $attr_template[self::OBJECT_STYLE]);
+        }else{
+          $this->parseStyle(self::OBJECT_STYLE, $block_intern, null);
+        }
       }   
-    }else{
+    }else if ( is_array($attr_template) && array_key_exists(self::OBJECT_STYLE, $attr_template) ) {
       $this->parseStyle(self::OBJECT_STYLE, null, $attr_template[self::OBJECT_STYLE]);
     }
   }
   
-  public function parseControls($tag, $block, array $attr_template = null){
+  public function parseControls($tag, $block, $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
       $this->data[self::JS_OBJECT_CONTROLS] = $this->convertAndMergeAttributesControls( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else 
       $this->data[self::JS_OBJECT_CONTROLS] = $this->convertAndMergeAttributesControls( $tag, null, $attr_template );
   }
   
-  public function parseKml($tag, $block, array $attr_template = null){
+  public function parseKml($tag, $block, $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
       $this->data[self::JS_OBJECT_KML][] = $this->convertAndMergeAttributesKml( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else 
       $this->data[self::JS_OBJECT_KML][] = $this->convertAndMergeAttributesKml( $tag, null, $attr_template );
   }
   
-  public function parseMarker($tag, $block, array $attr_template = null){
+  public function parseMarker($tag, $block, $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
       $this->data[self::JS_OBJECT_MARKER][] = $this->convertAndMergeAttributesMarker( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else 
@@ -306,14 +322,14 @@ class GMaps {
     }
   }
   
-  public function parseStyle($tag, $block, array $attr_template = null){
+  public function parseStyle($tag, $block, $attr_template = null){
     if ( is_array($block) && array_key_exists(WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES, $block) )
       $this->data[self::JS_OBJECT_STYLE] = $this->convertAndMergeAttributesStyle( $tag, $block[WebHelper::BLOCK_ARRAY_VALUE_ATTRIBUTES], $attr_template );
     else 
       $this->data[self::JS_OBJECT_STYLE] = $this->convertAndMergeAttributesStyle( $tag, null, $attr_template );
   }
   
-  protected function convertAndMergeAttributesRoot($tag, $attr = null, array $attr_template = null){
+  protected function convertAndMergeAttributesRoot($tag, $attr = null, $attr_template = null){
     $attr_result = array();
     $attr_result = $this->getDefaults();
 
@@ -599,9 +615,9 @@ class GMaps {
   public static function getGMap($page, $attr = array()){
     if ( !is_array($attr) && count($attr) == 0 )
       return "";
-    
+      
     $gmaps = new GMaps($page);
-    $gmaps->parse( array(), $attr );
+    $gmaps->parse( GMaps::OBJECT_ROOT, null, $attr );
     return $gmaps->toHTML();
   }
 }
