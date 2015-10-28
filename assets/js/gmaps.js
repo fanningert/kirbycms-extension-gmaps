@@ -106,6 +106,8 @@ function initialize() {
       var markerPlace = jQuery(gmapsmarkers[index]).attr('place');
       var markerContent = jQuery(gmapsmarkers[index]).html(); 
         
+      window.alert(markerTitle);
+        
       if (markerPlace) {
         placeService = new google.maps.places.PlacesService( map );
         placeService.textSearch({
