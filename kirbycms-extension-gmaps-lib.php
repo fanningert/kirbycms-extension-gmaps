@@ -346,8 +346,12 @@ class GMaps {
           $key = $this->para_mapping_root[$key];
         
         if ( array_key_exists($key, $attr_result) )
-          $attr_result[$key] = $this->checkValue( $key, $value );
+          $attr_result[$key] = $value;
       }
+    }
+    
+    foreach( $attr_result as $key => $value ){
+      $attr_result[$key] = $this->checkValueRoot( $key, $value );
     }
     
     return $attr_result;
@@ -370,8 +374,12 @@ class GMaps {
           $key = $this->para_mapping_controls[$key];
         
         if ( array_key_exists($key, $attr_result) )
-          $attr_result[$key] = $this->checkValue( $key, $value );
+          $attr_result[$key] = $value;
       }
+    }
+
+    foreach( $attr_result as $key => $value ){
+      $attr_result[$key] = $this->checkValueControls( $key, $value );
     }
 
     return $attr_result;
@@ -394,8 +402,12 @@ class GMaps {
           $key = $this->para_mapping_kml[$key];
         
         if ( array_key_exists($key, $attr_result) )
-          $attr_result[$key] = $this->checkValue( $key, $value );
+          $attr_result[$key] = $value;
       }
+    }
+    
+    foreach( $attr_result as $key => $value ){
+      $attr_result[$key] = $this->checkValueKml( $key, $value );
     }
     
     return $attr_result;
@@ -418,8 +430,12 @@ class GMaps {
           $key = $this->para_mapping_marker[$key];
         
         if ( array_key_exists($key, $attr_result) )
-          $attr_result[$key] = $this->checkValue( $key, $value );
+          $attr_result[$key] = $value;
       }
+    }
+    
+    foreach( $attr_result as $key => $value ){
+      $attr_result[$key] = $this->checkValueMarker( $key, $value );
     }
     
     return $attr_result;
@@ -442,15 +458,61 @@ class GMaps {
           $key = $this->para_mapping_style[$key];
         
         if ( array_key_exists($key, $attr_result) )
-          $attr_result[$key] = $this->checkValue( $key, $value );
+          $attr_result[$key] = $value;
       }
+    }
+    
+    foreach( $attr_result as $key => $value ){
+      $attr_result[$key] = $this->checkValueStyle( $key, $value );
     }
     
     return $attr_result;
   }
+ 
+  protected function checkValueRoot($key, $value){
+    return $this->checkValue($key, $value);
+  }
+ 
+  protected function checkValueControls($key, $value){
+    return $this->checkValue($key, $value);
+  }
+  
+  protected function checkValueKml($key, $value){
+    /*switch ($key) {
+      case self::JS_ATTR_KML_TITLE:
+        if( preg_match("/{file-([[:alnum:]]{0,})}/i", $value, $field) ){
+          if ( $this->page->$field[0]()->isIsset() )
+            $value = $this->page->$field[0]();
+          return $value;
+        }
+        break;
+    }*/
+    
+    return $this->checkValue($key, $value);
+  }
+  
+  protected function checkValueMarker($key, $value){
+    return $this->checkValue($key, $value);
+  }
+  
+  protected function checkValueStyle($key, $value){
+    return $this->checkValue($key, $value);
+  }
   
   protected function checkValue($key, $value){
-     switch ($key){
+    switch ($key){
+      case self::JS_ATTR_ZOOM:
+      case self::JS_ATTR_LNG:
+      case self::JS_ATTR_LAT:
+      case self::JS_ATTR_PLACE:
+        if( preg_match("/{page-([[:alnum:]]{0,})}/i", $value, $field) ){
+          if ( $this->page->$field[0]()->isIsset() )
+            return $this->page->$field[0]();
+        }
+        break;
+    }
+    
+    switch ($key){
       case self::JS_ATTR_ZOOM:
         if( is_int($value) )
           return $value;
@@ -489,7 +551,7 @@ class GMaps {
     }
     return $value;
   }
-  
+
   public function toHTML(){
     if ( $this->data[self::JS_ATTR_DEBUG] ) {
       return "<pre><code>".print_r($this->data, true)."</code></pre>";

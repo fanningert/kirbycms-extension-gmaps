@@ -161,6 +161,19 @@ $attr[GMaps::JS_ATTR_ZOOM] = 4;
 echo GMaps::getGMap($page, $attr);
 ```
 
+When you use the `use` command in a function, you will get following error.
+```php
+Parse error: syntax error, unexpected 'use' (T_USE)
+```
+Replace the top code with following lines.
+```php
+$attr = array();
+$attr[at\fanninger\kirby\extension\gmaps\GMaps::JS_ATTR_LAT] = 35.7152128;
+$attr[at\fanninger\kirby\extension\gmaps\GMaps::JS_ATTR_LNG] = 139.7981552;
+$attr[at\fanninger\kirby\extension\gmaps\GMaps::JS_ATTR_ZOOM] = 4;
+echo at\fanninger\kirby\extension\gmaps\GMaps::getGMap($page, $attr);
+```
+
 #### Use Place API for map focus
 
 ##### Kirby
@@ -175,7 +188,7 @@ echo GMaps::getGMap($page, $attr);
 use at\fanninger\kirby\extension\gmaps\GMaps;
 
 $attr = array();
-$attr[JS_ATTR_PLACE] = 'Vienna';
+$attr[GMaps::JS_ATTR_PLACE] = 'Vienna';
 echo GMaps::getGMap($page, $attr);
 ```
 
