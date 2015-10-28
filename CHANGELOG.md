@@ -1,3 +1,8 @@
+# 1.5
+
+- Page field support for `JS_ATTR_ZOOM`, `JS_ATTR_LNG`, `JS_ATTR_LAT`, `JS_ATTR_PLACE`, `JS_ATTR_KML_TITLE` and `JS_ATTR_MARKER_TITLE`
+  *Example:* `(googlemaps lat: {page-lat} lng: {page-lng} zoom: {page-zoom})`
+
 # 1.4
 
 - Add licence file

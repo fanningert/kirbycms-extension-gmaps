@@ -505,9 +505,11 @@ class GMaps {
       case self::JS_ATTR_LNG:
       case self::JS_ATTR_LAT:
       case self::JS_ATTR_PLACE:
+      case self::JS_ATTR_KML_TITLE:
+      case self::JS_ATTR_MARKER_TITLE:
         if( preg_match("/{page-([[:alnum:]]{0,})}/i", $value, $field) ){
-          if ( $this->page->$field[0]()->isIsset() )
-            return $this->page->$field[0]();
+          if ( $this->page->$field[1]()->isIsset() )
+            return $this->page->$field[1]();
         }
         break;
     }
