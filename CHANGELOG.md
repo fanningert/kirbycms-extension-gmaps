@@ -1,3 +1,8 @@
+# 1.6
+
+- Add config parameter to set the API-KEY. `kirby.extension.gmaps.apikey`
+- Add method to get the google maps api url. `echo at\fanninger\kirby\extension\gmaps\GMaps.getGoogleMapsJSApiUrl();`
+
 # 1.5
 
 - Page field support for `JS_ATTR_ZOOM`, `JS_ATTR_LNG`, `JS_ATTR_LAT`, `JS_ATTR_PLACE`, `JS_ATTR_KML_TITLE` and `JS_ATTR_MARKER_TITLE`

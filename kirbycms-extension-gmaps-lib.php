@@ -78,6 +78,7 @@ class GMaps {
   const CONFIG_PARA_LAT = "kirby.extension.gmaps.lat";
   const CONFIG_PARA_LNG = "kirby.extension.gmaps.lng";
   const CONFIG_PARA_ZOOM = "kirby.extension.gmaps.zoom";
+  const CONFIG_PARA_API_KEY = 'kirby.extension.gmaps.apikey';
   const CONFIG_PARA_CONTROLS_MAPTYPES = 'kirby.extension.gmaps.controls.maptypes';
   const CONFIG_PARA_CONTROLS_MAPTYPE_SELECTABLE = 'kirby.extension.gmaps.controls.maptype_selectable';
   const CONFIG_PARA_CONTROLS_MAPTYPE_DEFAULT = "kirby.extension.gmaps.controls.maptype.default";
@@ -683,5 +684,17 @@ class GMaps {
     $gmaps = new GMaps($page);
     $gmaps->parse( GMaps::OBJECT_ROOT, null, $attr );
     return $gmaps->toHTML();
+  }
+  
+  public static function getGoogleMapsJSApiUrl($http_proto = null) {
+    if ( $http_proto == null ) {
+      $http_proto = "https";
+    } 
+    if ( kirby()->option(self::CONFIG_PARA_API_KEY, null) != null ){
+      return $http_proto."://maps.googleapis.com/maps/api/js?key=".kirby()->option(self::CONFIG_PARA_API_KEY)."&signed_in=true&libraries=places&callback=initialize";
+    }else{
+      return $http_proto."://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initialize";
+    }
+    
   }
 }

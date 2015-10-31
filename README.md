@@ -15,7 +15,7 @@ First you need to install the plugin. In the second part copy the gmaps.js in to
 ```php
 ...
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="//maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initialize"></script>
+<script src="<?php echo at\fanninger\kirby\extension\gmaps\GMaps.getGoogleMapsJSApiUrl(); ?>"></script>
 <?php echo js('assets/js/gmaps.js'); ?>
 ...
 ```
@@ -32,7 +32,7 @@ For the asynchron loading of Javascript, you need a helper class. In my example 
     $script(['//code.jquery.com/jquery-2.1.1.min.js', 'gmaps'], 'pagejs');
     $script.ready('pagejs', function() {
       // I add the protcol, because without the protocol the script is searching in the local directory
-      $script('https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=initialize', 'googlemaps');
+      $script('<?php echo at\fanninger\kirby\extension\gmaps\GMaps.getGoogleMapsJSApiUrl(); ?>', 'googlemaps');
     });
   </script>
   </body>
@@ -91,6 +91,7 @@ $ git submodule foreach --recursive git pull
 | `kirby.extension.gmaps.lat` | 0.0 | {number} | Initial LAT-Value for map |
 | `kirby.extension.gmaps.lng` | 0.0 | {number} | Initial LNG-Value for map |
 | `kirby.extension.gmaps.zoom` | 7 | {number 0-19} | Default zoom level |
+| `kirby.extension.gmaps.apikey` | null | {string} | API-Key |
 | `kirby.extension.gmaps.controls.scale` | true | true/false | Activate/Deactivate scale control |
 | `kirby.extension.gmaps.controls.maptypes` | 'roadmap,satellite,hybrid,terrain' | {string} | |
 | `kirby.extension.gmaps.controls.maptype_selectable` | true | true/false | |
