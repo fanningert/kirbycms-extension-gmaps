@@ -41,7 +41,7 @@ For the asynchron loading of Javascript, you need a helper class. In my example 
 
 ### GIT
 
-Go into the `{kirby_installation}/site/plugins` directory and execute following command.
+Go into the `{{kirby folder}}/site/plugins` directory and execute following command.
 
 ```bash
 $ git clone https://github.com/fanningert/kirbycms-extension-webhelper.git
@@ -96,7 +96,7 @@ Last of all, in the head section of your template, load jQuery, the GoogleMaps A
 
 ### GIT
 
-Go into the `{kirby_installation}/site/plugins/kirbycms-extension-gmaps` directory and execute following command.
+Go into the `{{kirby folder}}/site/plugins/kirbycms-extension-gmaps` directory and execute following command.
 
 ```bash
 $ git pull
@@ -110,6 +110,11 @@ Go in the root directory of your git repository and execute following command to
 ```bash
 $ git submodule foreach --recursive git pull
 ```
+
+## Set Google-API-Key
+
+1. Open `{{kirby folder}}/site/config/config.php`
+1. Add following line: `c::set('kirby.extension.gmaps.apikey', '{{KEY}}');`
 
 ## Documentation
 
