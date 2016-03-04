@@ -32,7 +32,7 @@ For the asynchron loading of Javascript, you need a helper class. In my example 
     $script(['//code.jquery.com/jquery-2.1.1.min.js', 'gmaps'], 'pagejs');
     $script.ready('pagejs', function() {
       // I add the protcol, because without the protocol the script is searching in the local directory
-      $script('<?php echo at\fanninger\kirby\extension\gmaps\GMaps.getGoogleMapsJSApiUrl(); ?>', 'googlemaps');
+      $script('<?php echo at\fanninger\kirby\extension\gmaps\GMaps::getGoogleMapsJSApiUrl(); ?>', 'googlemaps');
     });
   </script>
   </body>
@@ -60,6 +60,37 @@ $ git submodule foreach --recursive git pull
 ```
 
 ### Manuell
+
+1. Click [here](https://github.com/fanningert/kirbycms-extension-webhelper/archive/master.zip) to download the latest version of the [WebHelper](https://github.com/fanningert/kirbycms-extension-webhelper) extension. Unzip it and rename the folder `kirbycms-extension-webhelper`.
+1. Click [here](https://github.com/fanningert/kirbycms-extension-gmaps/archive/master.zip) to download the latest version of the GMaps extension. Unzip it and rename the folder `kirbycms-extension-gmaps`.
+1. Put both folders inside `{{kirby folder}}/site/plugins`
+1. Move the file `kirbycms-extension-gmaps/assets/js/gmaps.js` to `{{kirby}}/assets/js/gmaps.js`. You should end up with a file structure like this:
+
+```
+{{kirby folder}}
+  - assets
+    - js
+      - gmaps.js
+  - site
+    - plugins
+      - kirbycms-extension-gmaps
+        - kirbycms-extension-gmaps.php
+      - kirbycms-extension-webhelper
+        - kirbycms-extension-webhelper.php
+```
+
+Last of all, in the head section of your template, load jQuery, the GoogleMaps API and the gmaps.js script, like this:
+
+```php
+<!-- loading jQuery from CDN -->
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<!-- loading the GoogleMaps API -->
+<script src="<?php echo at\fanninger\kirby\extension\gmaps\GMaps::getGoogleMapsJSApiUrl(); ?>"></script>
+
+<!-- loading the GMaps script -->
+<?php echo js('assets/js/gmaps.js'); ?>
+```
 
 ## Update
 
