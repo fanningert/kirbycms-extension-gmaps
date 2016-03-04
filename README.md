@@ -15,7 +15,7 @@ First you need to install the plugin. In the second part copy the gmaps.js in to
 ```php
 ...
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="<?php echo at\fanninger\kirby\extension\gmaps\GMaps.getGoogleMapsJSApiUrl(); ?>"></script>
+<script src="<?php echo at\fanninger\kirby\extension\gmaps\GMaps::getGoogleMapsJSApiUrl(); ?>"></script>
 <?php echo js('assets/js/gmaps.js'); ?>
 ...
 ```
