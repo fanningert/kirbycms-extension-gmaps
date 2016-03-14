@@ -1,3 +1,7 @@
+# 1.7.1
+
+- Add dependencies to `package.json`
+
 # 1.7
 
 - Add PHP Composer support. Install plugin with KirbyCli tool. `kirby plugin:install fanningert/kirbycms-extension-gmaps`
