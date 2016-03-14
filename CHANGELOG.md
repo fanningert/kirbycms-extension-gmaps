@@ -1,3 +1,7 @@
+# 1.7
+
+- Add PHP Composer support. Install plugin with KirbyCli tool. `kirby plugin:install fanningert/kirbycms-extension-gmaps`
+
 # 1.6
 
 - Add config parameter to set the API-KEY. `kirby.extension.gmaps.apikey`

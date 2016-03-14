@@ -20,23 +20,10 @@ First you need to install the plugin. In the second part copy the gmaps.js in to
 ...
 ```
 
-### Asynchron Loading of jQuery and Google Maps Javascript API
+### KirbyCli
 
-For the asynchron loading of Javascript, you need a helper class. In my example I am using [script.js](https://github.com/ded/script.js).
-
-```php
-...
-  <?php echo js("assets/js/script.min.js") ?>
-  <script type="text/javascript">
-    $script.path('<?php echo $kirby->urls->index; ?>/assets/js/');
-    $script(['//code.jquery.com/jquery-2.1.1.min.js', 'gmaps'], 'pagejs');
-    $script.ready('pagejs', function() {
-      // I add the protcol, because without the protocol the script is searching in the local directory
-      $script('<?php echo at\fanninger\kirby\extension\gmaps\GMaps::getGoogleMapsJSApiUrl(); ?>', 'googlemaps');
-    });
-  </script>
-  </body>
-</html>
+```
+kirby plugin:install fanningert/kirbycms-extension-gmaps
 ```
 
 ### GIT
@@ -94,6 +81,12 @@ Last of all, in the head section of your template, load jQuery, the GoogleMaps A
 
 ## Update
 
+### KirbyCli
+
+```
+kirby plugin:update fanningert/kirbycms-extension-gmaps
+```
+
 ### GIT
 
 Go into the `{{kirby folder}}/site/plugins/kirbycms-extension-gmaps` directory and execute following command.
@@ -109,6 +102,25 @@ Go in the root directory of your git repository and execute following command to
 
 ```bash
 $ git submodule foreach --recursive git pull
+```
+
+### Asynchron Loading of jQuery and Google Maps Javascript API
+
+For the asynchron loading of Javascript, you need a helper class. In my example I am using [script.js](https://github.com/ded/script.js).
+
+```php
+...
+  <?php echo js("assets/js/script.min.js") ?>
+  <script type="text/javascript">
+    $script.path('<?php echo $kirby->urls->index; ?>/assets/js/');
+    $script(['//code.jquery.com/jquery-2.1.1.min.js', 'gmaps'], 'pagejs');
+    $script.ready('pagejs', function() {
+      // I add the protcol, because without the protocol the script is searching in the local directory
+      $script('<?php echo at\fanninger\kirby\extension\gmaps\GMaps::getGoogleMapsJSApiUrl(); ?>', 'googlemaps');
+    });
+  </script>
+  </body>
+</html>
 ```
 
 ## Set Google-API-Key

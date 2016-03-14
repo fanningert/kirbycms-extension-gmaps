@@ -1,0 +1,8 @@
+{
+  "name": "fanningert/kirbycms-extension-gmaps",
+  "description": "KirbyText Extension - GMaps",
+  "author": "Thomas Fanninger <thomas@fanninger.at>",
+  "license": "GPL",
+  "version": "1.7.0",
+  "type": "kirby-plugin"
+}
