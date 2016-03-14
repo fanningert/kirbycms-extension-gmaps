@@ -3,7 +3,7 @@
   "description": "KirbyText Extension - GMaps",
   "author": "Thomas Fanninger <thomas@fanninger.at>",
   "license": "GPL",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "type": "kirby-plugin",
   "require": {
       "fanningert/kirbycms-extension-webhelper" : ">=0.3.1"
